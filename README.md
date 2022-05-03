@@ -1,7 +1,7 @@
-# Spring Heroe
+# Spring Hero
 
 ### DEMO
-![DEMO](https://github.com/valeriehernandez-7/Spring-Heroe/blob/main/docs/DEMO.gif)
+![DEMO](https://github.com/valeriehernandez-7/Spring-Hero/blob/main/docs/DEMO.gif)
 
 ##
 

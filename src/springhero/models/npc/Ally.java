@@ -10,9 +10,8 @@ public class Ally extends NPC {
     private boolean rescued;
 
     public Ally(Cell cell) {
-        this.points = 100;
         this.rescued = false;
-        this.sprite.setIcon(new ImageIcon(ALLIES_SRC + "ally-" + 0 + ".png"));
+        this.sprite.setIcon(new ImageIcon(ALLIES_SRC + "ally-d.png"));
         this.setVisible(false);
         this.setPosition(cell);
     }

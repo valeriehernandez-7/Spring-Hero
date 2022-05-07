@@ -13,9 +13,8 @@ public class Enemy extends NPC {
 
     public Enemy(Cell cell) {
         this.power = 1;
-        this.points = 1000;
         this.defeated = false;
-        this.sprite.setIcon(new ImageIcon(ENEMIES_SRC + "enemy-" + 0 + ".png"));
+        this.sprite.setIcon(new ImageIcon(ENEMIES_SRC + "enemy-d.png"));
         this.setPosition(cell);
     }
 

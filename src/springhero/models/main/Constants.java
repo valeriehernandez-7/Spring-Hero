@@ -5,19 +5,15 @@ import javax.swing.*;
 public interface Constants {
 
     // paths
+    String BACKGROUNDS_SRC = "src/springhero/resources/assets/backgrounds/";
     String HERO_SRC = "src/springhero/resources/assets/hero/";
-    String HUD_SRC = "src/springhero/resources/assets/hud/";
     String ALLIES_SRC = "src/springhero/resources/assets/npc/allies/";
     String ENEMIES_SRC = "src/springhero/resources/assets/npc/enemies/";
-    String TEXTURES_SRC = "src/springhero/resources/assets/textures/";
-
-    // images
-    ImageIcon BACKGROUND_IMG = new ImageIcon(TEXTURES_SRC + "background.png");
-    ImageIcon INDICATOR_IMG = new ImageIcon(HUD_SRC + "indicator.png");
 
     // gui
-    int WINDOW_HEIGHT = BACKGROUND_IMG.getIconHeight();
-    int WINDOW_WIDTH = BACKGROUND_IMG.getIconWidth();
+    ImageIcon MAIN_BKG_IMG = new ImageIcon(BACKGROUNDS_SRC + "main.png");
+    int WINDOW_HEIGHT = MAIN_BKG_IMG.getIconHeight();
+    int WINDOW_WIDTH = MAIN_BKG_IMG.getIconWidth();
 
     int MAP_XPOS = 0;
     int MAP_YPOS = 120;

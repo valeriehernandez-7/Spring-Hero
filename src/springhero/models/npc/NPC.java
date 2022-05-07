@@ -9,7 +9,6 @@ import java.awt.Point;
 public class NPC implements Constants {
     protected JLabel sprite;
     protected Point position;
-    protected int points;
 
     public JLabel getSprite() {
         return sprite;
@@ -27,9 +26,5 @@ public class NPC implements Constants {
         this.position = cell.getID();
         this.sprite.setLocation(cell.getPosition());
         cell.setEntity(getClass().getSimpleName());
-    }
-
-    public int getPoints() {
-        return points;
     }
 }

@@ -12,13 +12,42 @@ public class Enemy extends NPC {
     private int power;
 
     public Enemy(Cell cell) {
-        this.power = 1;
         this.defeated = false;
-        this.sprite.setIcon(new ImageIcon(ENEMIES_SRC + "enemy-d.png"));
+        this.power = 1;
+        this.upImg = new ImageIcon(ENEMIES_SRC + "enemy-w.png");
+        this.downImg = new ImageIcon(ENEMIES_SRC + "enemy-s.png");
+        this.leftImg = new ImageIcon(ENEMIES_SRC + "enemy-a.png");
+        this.rightImg = new ImageIcon(ENEMIES_SRC + "enemy-d.png");
+        this.setSprite(view.RIGHT);
         this.setPosition(cell);
     }
 
+    public boolean isDefeated() {
+        return defeated;
+    }
+
+    public void setDefeated(boolean defeated) {
+        this.defeated = defeated;
+    }
+
+    public Point getTarget() {
+        return target;
+    }
+
+    public void setTarget(Point target) {
+        this.target = target;
+    }
+
+    public int getPower() {
+        return power;
+    }
+
+    public void setPower(int power) {
+        this.power = power;
+    }
+
     public void moveTo() {
+        // TO DO: check if next position is available
         if (position.x != target.x) {
             position.x += ((target.x - position.x) / Math.abs(target.x - position.x));
         }

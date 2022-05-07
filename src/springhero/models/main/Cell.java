@@ -1,16 +1,21 @@
 package springhero.models.main;
 
 import java.awt.Point;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Cell {
+
     private final Point ID;
     private final Point position;
+    private List<Cell> neighbors;
     private String entity;
 
     public Cell(Point ID, Point position) {
         this.ID = ID;
         this.position = position;
-        this.entity  = "Cell";
+        this.neighbors = new ArrayList<>();
+        this.entity = "Cell";
     }
 
     public Point getID() {
@@ -19,6 +24,14 @@ public class Cell {
 
     public Point getPosition() {
         return position;
+    }
+
+    public List<Cell> getNeighbors() {
+        return neighbors;
+    }
+
+    public void setNeighbors(List<Cell> neighbors) {
+        this.neighbors = neighbors;
     }
 
     public String getEntity() {

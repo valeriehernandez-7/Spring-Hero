@@ -11,9 +11,13 @@ public class Ally extends NPC {
 
     public Ally(Cell cell) {
         this.rescued = false;
-        this.sprite.setIcon(new ImageIcon(ALLIES_SRC + "ally-d.png"));
-        this.setVisible(false);
+        this.upImg = new ImageIcon(ALLIES_SRC + "ally-w.png");
+        this.downImg = new ImageIcon(ALLIES_SRC + "ally-s.png");
+        this.leftImg = new ImageIcon(ALLIES_SRC + "ally-a.png");
+        this.rightImg = new ImageIcon(ALLIES_SRC + "ally-d.png");
+        this.setSprite(view.RIGHT);
         this.setPosition(cell);
+        this.setVisible(false);
     }
 
     public boolean isVisible() {

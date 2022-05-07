@@ -2,7 +2,9 @@ package springhero.views.main;
 
 import springhero.models.main.Constants;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.ImageIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -15,6 +17,10 @@ import java.awt.event.ActionListener;
 public class SpringHeroView extends JFrame implements ActionListener, Constants {
 
     private JLabel backgroundLbl;
+    private final ImageIcon ICON_IMG = new ImageIcon(RESOURCES_SRC + "logo/icon.png");
+    private final ImageIcon WELCOME_BKG_IMG = new ImageIcon(BACKGROUNDS_SRC + "welcome.png");
+    private final ImageIcon CONTROLS_BKG_IMG = new ImageIcon(BACKGROUNDS_SRC + "controls.png");
+    private final ImageIcon GAME_BKG_IMG = new ImageIcon(BACKGROUNDS_SRC + "game.png");
 
     public SpringHeroView() {
         setIconImage(ICON_IMG.getImage());

@@ -1,25 +1,17 @@
 package springhero.models.main;
 
-import javax.swing.*;
-
 public interface Constants {
 
     // paths
-    String BACKGROUNDS_SRC = "src/springhero/resources/assets/backgrounds/";
-    String HERO_SRC = "src/springhero/resources/assets/hero/";
-    String ALLIES_SRC = "src/springhero/resources/assets/npc/allies/";
-    String ENEMIES_SRC = "src/springhero/resources/assets/npc/enemies/";
-
-    // images
-    // window
-    ImageIcon ICON_IMG = new ImageIcon("src/springhero/resources/logo/icon.png");
-    ImageIcon WELCOME_BKG_IMG = new ImageIcon(BACKGROUNDS_SRC + "welcome.png");
-    ImageIcon CONTROLS_BKG_IMG = new ImageIcon(BACKGROUNDS_SRC + "controls.png");
-    ImageIcon GAME_BKG_IMG = new ImageIcon(BACKGROUNDS_SRC + "game.png");
+    String RESOURCES_SRC = "src/springhero/resources/";
+    String BACKGROUNDS_SRC = RESOURCES_SRC + "assets/backgrounds/";
+    String HERO_SRC = RESOURCES_SRC + "assets/hero/";
+    String ALLIES_SRC = RESOURCES_SRC + "assets/npc/allies/";
+    String ENEMIES_SRC = RESOURCES_SRC + "assets/npc/enemies/";
 
     // calc
-    int WINDOW_HEIGHT = GAME_BKG_IMG.getIconHeight();
-    int WINDOW_WIDTH = GAME_BKG_IMG.getIconWidth();
+    int WINDOW_HEIGHT = 440;
+    int WINDOW_WIDTH = 780;
     int MAP_XPOS = 0;
     int MAP_YPOS = 120;
     int MAP_GRID_ROWS = 7;
@@ -32,6 +24,13 @@ public interface Constants {
         WELCOME,
         CONTROLS,
         GAME
+    }
+
+    enum view {
+        UP,
+        DOWN,
+        LEFT,
+        RIGHT
     }
 
     enum NPCType {

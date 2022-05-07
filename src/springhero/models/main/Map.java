@@ -34,12 +34,39 @@ public class Map implements Constants {
         return grid[row][column];
     }
 
-    public void update() {
+    private List<Point> getPositions(Point origin) {
+        Point[] directions = new Point[]{
+                new Point(origin.x - 1, origin.y), // UP
+                new Point(origin.x + 1, origin.y), // DOWN
+                new Point(origin.x, origin.y - 1), // LEFT
+                new Point(origin.x, origin.y + 1), // RIGHT
+        };
+        List<Point> positions = new ArrayList<>();
+        for (Point direction : directions) {
+            if (0 <= direction.x & direction.x <= MAP_GRID_ROWS - 1) {
+                if (0 <= direction.y & direction.y <= MAP_GRID_COLS - 1) {
+                    positions.add(direction);
+                }
+            }
+        }
+        return positions;
+    }
+
+    private List<Cell> getNeighbors(Point origin) {
         List<Cell> neighbors = new ArrayList<>();
-        for (int row = 0; row < grid.length; row++) {
-            for (int col = 0; col < grid[row].length; col++) {
-                // TO DO: calc & add cells to neighbors
-                grid[row][col].setNeighbors(neighbors);
+        List<Point> positions = getPositions(origin);
+        if (!positions.isEmpty()) {
+            for (Point position : positions) {
+                neighbors.add(getCell(position));
+            }
+        }
+        return neighbors;
+    }
+
+    public void update() {
+        for (Cell[] container : grid) {
+            for (Cell cell : container) {
+                cell.setNeighbors(getNeighbors(cell.getID()));
             }
         }
     }

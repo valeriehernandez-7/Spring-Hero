@@ -1,12 +1,9 @@
 package springhero.models.ObvserverPattern;
 
-import java.util.ArrayList;
+import springhero.models.main.Cell;
 
-public class Observable {
-    protected ArrayList<Observer> observer;
-
-
-    public void attach(){}
-    public void detach(){}
-    public void notifyObserver(){}
+public interface Observable {
+    void attach(Observer o);
+    void detach(Observer o);
+    void notifyObserver(Cell cell);
 }

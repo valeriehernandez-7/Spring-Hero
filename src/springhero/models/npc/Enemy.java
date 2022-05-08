@@ -16,6 +16,7 @@ public class Enemy extends NPC {
         this.rightImg = new ImageIcon(ENEMIES_SRC + "enemy-d.png");
         this.setSprite(view.RIGHT);
         this.setPosition(cell);
+        //this.registerObserver();
     }
 
     public boolean isDefeated() {

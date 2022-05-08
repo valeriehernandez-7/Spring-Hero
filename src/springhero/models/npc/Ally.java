@@ -18,6 +18,7 @@ public class Ally extends NPC {
         this.setSprite(view.RIGHT);
         this.setPosition(cell);
         this.setVisible(false);
+        //this.registerObserver();
     }
 
     public boolean isVisible() {

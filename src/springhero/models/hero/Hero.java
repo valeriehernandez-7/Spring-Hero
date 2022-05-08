@@ -1,22 +1,24 @@
 package springhero.models.hero;
 
+import springhero.models.ObvserverPattern.Observable;
+import springhero.models.ObvserverPattern.Observer;
 import springhero.models.main.Cell;
 import springhero.models.main.Constants;
 import springhero.models.main.Map;
 import springhero.models.npc.Ally;
 import springhero.models.npc.Enemy;
 
-import javax.swing.JLabel;
-import javax.swing.ImageIcon;
-import java.awt.Point;
-import java.awt.Rectangle;
+import javax.swing.*;
+import java.awt.*;
+import java.util.List;
 
-public class Hero implements Constants {
+public class Hero implements Constants, Observable {
 
     private JLabel sprite;
     private Point position;
     private int health;
     private final ImageIcon upImg, downImg, leftImg, rightImg;
+    private List<Observer> observerList;
 
     public Hero(Cell cell) {
         this.sprite = new JLabel();
@@ -28,6 +30,8 @@ public class Hero implements Constants {
         this.rightImg = new ImageIcon(HERO_SRC + "hero-d.png");
         this.setSprite(view.RIGHT);
     }
+
+    public JLabel getSprite(){return sprite;}
 
     public void setSprite(view view) {
         ImageIcon icon = new ImageIcon();
@@ -90,10 +94,34 @@ public class Hero implements Constants {
             setPosition(map.getCell(nextPosition));
             setSprite(direction);
             currentCell.resetEntity();
+            notifyObserver(map.getCell(nextPosition));
         }
     }
 
     public void rescue(Ally ally) {}
 
     public void attack(Enemy enemy) {}
+
+
+    @Override
+    public void attach(Observer o) {
+        this.observerList.add(o);
+
+    }
+
+    @Override
+    public void detach(Observer o) {
+        this.observerList.remove(o);
+
+    }
+
+    @Override
+    public void notifyObserver(Cell cell) {
+        if(observerList!= null) {
+            for (Observer observer : observerList) {
+                observer.update(cell);
+            }
+        }
+
+    }
 }

@@ -1,5 +1,7 @@
 package springhero.models.main;
 
+import java.awt.Color;
+
 public interface Constants {
 
     // paths
@@ -8,6 +10,11 @@ public interface Constants {
     String HERO_SRC = RESOURCES_SRC + "assets/hero/";
     String ALLIES_SRC = RESOURCES_SRC + "assets/npc/allies/";
     String ENEMIES_SRC = RESOURCES_SRC + "assets/npc/enemies/";
+
+    // colors
+    Color HERO_HEALTH_BAR_COLOR = new Color(243, 136, 245);
+    Color ALLIES_RESCUED_BAR_COLOR = new Color(251, 253, 253 );
+    Color ENEMIES_DESTROYED_BAR_COLOR = new Color(15, 238, 250);
 
     // calc
     int WINDOW_HEIGHT = 440;

@@ -5,8 +5,9 @@ import springhero.models.main.Constants;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.ImageIcon;
-import java.awt.event.KeyEvent;
+import java.awt.Color;
 import java.awt.event.KeyListener;
 
 /**
@@ -14,17 +15,17 @@ import java.awt.event.KeyListener;
  * @author <a href="https://github.com/valeriehernandez-7">Valerie M. Hernández Fernández</a>
  * @author <a href="https://github.com/Mariana612">Mariana Navarro Jiménez</a>
  */
-public class SpringHeroView extends JFrame implements KeyListener, Constants {
+public class SpringHeroView extends JFrame implements Constants {
 
     private final ImageIcon ICON_IMG = new ImageIcon(RESOURCES_SRC + "logo/icon.png");
     private final ImageIcon WELCOME_BKG_IMG = new ImageIcon(BACKGROUNDS_SRC + "welcome.png");
     private final ImageIcon CONTROLS_BKG_IMG = new ImageIcon(BACKGROUNDS_SRC + "controls.png");
     private final ImageIcon GAME_BKG_IMG = new ImageIcon(BACKGROUNDS_SRC + "game.png");
-    private screens screenview = screens.WELCOME;
     private JLabel backgroundLbl = labelSetup(WELCOME_BKG_IMG, 0, 0, true);
+    private JProgressBar heroHealthBar, alliesRescuedBar, enemiesDestroyedBar;
     private JPanel hud, characters, background;
 
-    public SpringHeroView() {
+    public SpringHeroView(KeyListener keyListener) {
         setIconImage(ICON_IMG.getImage());
         setTitle("Spring Hero");
         setSize(WINDOW_WIDTH + 15, WINDOW_HEIGHT + 35);
@@ -34,7 +35,7 @@ public class SpringHeroView extends JFrame implements KeyListener, Constants {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         getUiComponents();
         setVisible(true);
-        addKeyListener(this);
+        addKeyListener(keyListener);
     }
 
     private void getUiComponents() {
@@ -53,8 +54,7 @@ public class SpringHeroView extends JFrame implements KeyListener, Constants {
         getContentPane().add(background);
     }
 
-    private void backgroundSetup(screens screenName) {
-        screenview = screenName;
+    public void backgroundSetup(screens screenName) {
         ImageIcon backgroundImg = new ImageIcon();
         switch (screenName) {
             case WELCOME -> backgroundImg = WELCOME_BKG_IMG;
@@ -73,54 +73,18 @@ public class SpringHeroView extends JFrame implements KeyListener, Constants {
         return label;
     }
 
+    private JProgressBar progressBarSetup (int min, int max, int posX, int posY, Color color) {
+        JProgressBar progressBar = new JProgressBar(min, max);
+        progressBar.setBounds(posX, posY, 137, 33);;
+        progressBar.setForeground(color);
+        progressBar.setBorderPainted(false);
+        return progressBar;
+    }
+
     private JPanel jPanelSetup() {
         JPanel jPanel = new JPanel(null);
         jPanel.setOpaque(false);
         jPanel.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
         return jPanel;
-    }
-
-    @Override
-    public void keyTyped(KeyEvent keyEvent) {}
-
-    @Override
-    public void keyReleased(KeyEvent keyEvent) {}
-
-    @Override
-    public void keyPressed(KeyEvent keyEvent) {
-        int key = keyEvent.getKeyCode();
-        if (screenview == screens.GAME) {
-            if (key == KeyEvent.VK_W) {
-                System.out.println("UP"); // TO DO: DELETE LINE
-                // TO DO: HERO UP()
-            }
-            if (key == KeyEvent.VK_S) {
-                System.out.println("DOWN"); // TO DO: DELETE LINE
-                // TO DO: HERO DOWN()
-            }
-            if (key == KeyEvent.VK_A) {
-                System.out.println("LEFT"); // TO DO: DELETE LINE
-                // TO DO: HERO LEFT()
-            }
-            if (key == KeyEvent.VK_D) {
-                System.out.println("RIGHT"); // TO DO: DELETE LINE
-                // TO DO: HERO RIGHT()
-            }
-            if (key == KeyEvent.VK_F) {
-                System.out.println("ATTACK"); // TO DO: DELETE LINE
-                // TO DO: HERO ATTACK()
-            }
-            // TO DO: observer events
-            // TO DO: map.update()
-        } else if (screenview == screens.CONTROLS) {
-            if (key == KeyEvent.VK_P) {
-                backgroundSetup(screens.GAME);
-                // TO DO: gameInit()
-            }
-        }  else if (screenview == screens.WELCOME) {
-            if (key == KeyEvent.VK_X) {
-                backgroundSetup(screens.CONTROLS);
-            }
-        }
     }
 }

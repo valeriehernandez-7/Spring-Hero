@@ -5,22 +5,22 @@ import springhero.models.main.Constants;
 import springhero.models.npc.Ally;
 import springhero.models.npc.Enemy;
 
-import javax.swing.JLabel;
-import javax.swing.ImageIcon;
-import java.awt.Point;
-import java.awt.Rectangle;
+import javax.swing.*;
+import java.awt.*;
 
 public class Hero implements Constants {
 
     private JLabel sprite;
     private Point position;
     private int health;
+    private Cell oldCell;
     private final ImageIcon upImg, downImg, leftImg, rightImg;
 
     public Hero(Cell cell) {
         this.sprite = new JLabel();
         this.position = cell.getID();
         this.health = 15;
+        this.oldCell = cell;
         this.upImg = new ImageIcon(HERO_SRC + "hero-w.png");
         this.downImg = new ImageIcon(HERO_SRC + "hero-s.png");
         this.leftImg = new ImageIcon(HERO_SRC + "hero-a.png");
@@ -41,15 +41,17 @@ public class Hero implements Constants {
             this.sprite.setBounds(new Rectangle(this.sprite.getIcon().getIconWidth(), this.sprite.getIcon().getIconHeight()));
         }
     }
-
-    public Point getPosition() {
+    public Point getPosition(){
         return position;
     }
 
+
     public void setPosition(Cell cell) {
         this.position = cell.getID();
+        this.oldCell.resetEntity();
         this.sprite.setLocation((cell.getPosition().x - (this.sprite.getIcon().getIconWidth() / 2)), (cell.getPosition().y - (this.sprite.getIcon().getIconHeight() / 2)));
         cell.setEntity(getClass().getSimpleName());
+        this.oldCell = cell;
     }
 
     public int getHealth() {
@@ -67,7 +69,6 @@ public class Hero implements Constants {
         }
     }
 
-    public void move() {}
 
     public void rescue(Ally ally) {}
 

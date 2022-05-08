@@ -9,6 +9,7 @@ import springhero.models.npc.Enemy;
 import springhero.models.npc.NPCFactory;
 import springhero.views.main.SpringHeroView;
 
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.List;
@@ -92,22 +93,30 @@ public class SpringHeroController implements Constants, KeyListener {
 
     @Override
     public void keyPressed(KeyEvent keyEvent) {
+        Hero hero = springHero.getHero();
         int key = keyEvent.getKeyCode();
         if (getSpringHeroScreenview() == screens.GAME) {
             if (key == KeyEvent.VK_W) {
-                System.out.println("UP"); // TODO: DELETE LINE
+                hero.setPosition(springHero.getMap().getCell(new Point(hero.getPosition().x,hero.getPosition().y++)));
+                hero.setSprite(view.UP);
                 // TODO: HERO UP()
             }
             if (key == KeyEvent.VK_S) {
                 System.out.println("DOWN"); // TODO: DELETE LINE
+                hero.setPosition(springHero.getMap().getCell(new Point(hero.getPosition().x,hero.getPosition().y-1)));
+                hero.setSprite(view.DOWN);
                 // TODO: HERO DOWN()
             }
             if (key == KeyEvent.VK_A) {
                 System.out.println("LEFT"); // TODO: DELETE LINE
+                hero.setPosition(springHero.getMap().getCell(new Point(hero.getPosition().x-1,hero.getPosition().y)));
+                hero.setSprite(view.LEFT);
                 // TODO: HERO LEFT()
             }
             if (key == KeyEvent.VK_D) {
                 System.out.println("RIGHT"); // TODO: DELETE LINE
+                hero.setPosition(springHero.getMap().getCell(new Point(hero.getPosition().x++,hero.getPosition().y)));
+                hero.setSprite(view.RIGHT);
                 // TODO: HERO RIGHT()
             }
             if (key == KeyEvent.VK_F) {

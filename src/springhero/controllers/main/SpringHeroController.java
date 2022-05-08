@@ -1,11 +1,17 @@
 package springhero.controllers.main;
 
+import springhero.models.hero.Hero;
 import springhero.models.main.Constants;
+import springhero.models.main.Map;
 import springhero.models.main.SpringHero;
+import springhero.models.npc.Ally;
+import springhero.models.npc.Enemy;
+import springhero.models.npc.NPCFactory;
 import springhero.views.main.SpringHeroView;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.List;
 
 /**
  * Spring Hero Game controller class.
@@ -28,6 +34,54 @@ public class SpringHeroController implements Constants, KeyListener {
 
     public void setSpringHeroScreenview(screens screenview) {
         this.springHero.setScreenview(screenview);
+    }
+
+    public boolean isSpringHeroGameOver() {
+        return springHero.isGameOver();
+    }
+
+    public void setSpringHeroGameOver(boolean gameOver) {
+        this.springHero.setGameOver(gameOver);
+    }
+
+    public Map getSpringHeroMap() {
+        return springHero.getMap();
+    }
+
+    public void setSpringHeroMap(Map map) {
+        this.springHero.setMap(map);
+    }
+
+    public Hero getSpringHeroHero() {
+        return springHero.getHero();
+    }
+
+    public void setSpringHeroHero(Hero hero) {
+        this.springHero.setHero(hero);
+    }
+
+    public NPCFactory getSpringHeroNpcFactory() {
+        return springHero.getNpcFactory();
+    }
+
+    public void setSpringHeroNpcFactory(NPCFactory npcFactory) {
+        this.springHero.setNpcFactory(npcFactory);
+    }
+
+    public List<Ally> getSpringHeroAllies() {
+        return springHero.getAllies();
+    }
+
+    public void setSpringHeroAllies(List<Ally> allies) {
+        this.springHero.setAllies(allies);
+    }
+
+    public List<Enemy> getSpringHeroEnemies() {
+        return springHero.getEnemies();
+    }
+
+    public void setSpringHeroEnemies(List<Enemy> enemies) {
+        this.springHero.setEnemies(enemies);
     }
 
     @Override

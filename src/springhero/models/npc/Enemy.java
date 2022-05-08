@@ -46,7 +46,7 @@ public class Enemy extends NPC {
         this.power = power;
     }
 
-    public void moveTo() {
+    public void move() {
         // TODO : check if next position is available
         if (position.x != target.x) {
             position.x += ((target.x - position.x) / Math.abs(target.x - position.x));

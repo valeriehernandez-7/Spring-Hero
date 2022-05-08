@@ -2,6 +2,8 @@ package springhero.models.hero;
 
 import springhero.models.main.Cell;
 import springhero.models.main.Constants;
+import springhero.models.npc.Ally;
+import springhero.models.npc.Enemy;
 
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
@@ -26,7 +28,7 @@ public class Hero implements Constants {
         this.setSprite(view.RIGHT);
     }
 
-    private void setSprite(view view) {
+    public void setSprite(view view) {
         ImageIcon icon = new ImageIcon();
         switch (view) {
             case UP -> icon = this.upImg;
@@ -40,11 +42,34 @@ public class Hero implements Constants {
         }
     }
 
+    public Point getPosition() {
+        return position;
+    }
+
     public void setPosition(Cell cell) {
         this.position = cell.getID();
         this.sprite.setLocation((cell.getPosition().x - (this.sprite.getIcon().getIconWidth() / 2)), (cell.getPosition().y - (this.sprite.getIcon().getIconHeight() / 2)));
         cell.setEntity(getClass().getSimpleName());
     }
 
-    public void moveHero() {}
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public void setHealth(NPCType npc) {
+        switch (npc) {
+            case ALLY -> this.health++;
+            case ENEMY -> this.health--;
+        }
+    }
+
+    public void move() {}
+
+    public void rescue(Ally ally) {}
+
+    public void attack(Enemy enemy) {}
 }

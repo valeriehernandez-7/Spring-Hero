@@ -40,4 +40,52 @@ public class SpringHero implements Constants {
     public void setScreenview(screens screenview) {
         this.screenview = screenview;
     }
+
+    public boolean isGameOver() {
+        return gameOver;
+    }
+
+    public void setGameOver(boolean gameOver) {
+        this.gameOver = gameOver;
+    }
+
+    public Map getMap() {
+        return map;
+    }
+
+    public void setMap(Map map) {
+        this.map = map;
+    }
+
+    public Hero getHero() {
+        return hero;
+    }
+
+    public void setHero(Hero hero) {
+        this.hero = hero;
+    }
+
+    public NPCFactory getNpcFactory() {
+        return npcFactory;
+    }
+
+    public void setNpcFactory(NPCFactory npcFactory) {
+        this.npcFactory = npcFactory;
+    }
+
+    public List<Ally> getAllies() {
+        return allies;
+    }
+
+    public void setAllies(List<Ally> allies) {
+        this.allies = allies;
+    }
+
+    public List<Enemy> getEnemies() {
+        return enemies;
+    }
+
+    public void setEnemies(List<Enemy> enemies) {
+        this.enemies = enemies;
+    }
 }

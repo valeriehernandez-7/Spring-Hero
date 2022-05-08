@@ -42,7 +42,8 @@ public class Hero implements Constants {
             this.sprite.setBounds(new Rectangle(this.sprite.getIcon().getIconWidth(), this.sprite.getIcon().getIconHeight()));
         }
     }
-    public Point getPosition(){
+
+    public Point getPosition() {
         return position;
     }
 
@@ -63,8 +64,16 @@ public class Hero implements Constants {
 
     public void setHealth(NPCType npc) {
         switch (npc) {
-            case ALLY -> this.health++;
-            case ENEMY -> this.health--;
+            case ALLY -> {
+                if ((this.health + 1) <= HERO_MAX_HEALTH) {
+                    this.health++;
+                }
+            }
+            case ENEMY -> {
+                if ((this.health - 1) >= 0) {
+                    this.health--;
+                }
+            }
         }
     }
 
@@ -72,21 +81,13 @@ public class Hero implements Constants {
         Cell currentCell = map.getCell(this.position);
         Point nextPosition = null;
         switch (direction) {
-            case UP -> {
-                nextPosition = new Point(this.position.x - 1, this.position.y);
-            }
-            case DOWN -> {
-                nextPosition = new Point(this.position.x + 1, this.position.y);
-            }
-            case LEFT -> {
-                nextPosition = new Point(this.position.x, this.position.y - 1);
-            }
-            case RIGHT -> {
-                nextPosition = new Point(this.position.x, this.position.y + 1);
-            }
+            case UP -> nextPosition = new Point(this.position.x - 1, this.position.y);
+            case DOWN -> nextPosition = new Point(this.position.x + 1, this.position.y);
+            case LEFT -> nextPosition = new Point(this.position.x, this.position.y - 1);
+            case RIGHT -> nextPosition = new Point(this.position.x, this.position.y + 1);
         }
         if ((nextPosition != null) & (currentCell.getNeighbors().contains(map.getCell(nextPosition)))) {
-            this.position = nextPosition;
+            setPosition(map.getCell(nextPosition));
             setSprite(direction);
             currentCell.resetEntity();
         }

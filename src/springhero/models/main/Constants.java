@@ -19,6 +19,7 @@ public interface Constants {
     Color ENEMIES_DESTROYED_BAR_COLOR = new Color(15, 238, 250);
 
     // calc
+    int HERO_MAX_HEALTH = 15;
     int WINDOW_HEIGHT = 440;
     int WINDOW_WIDTH = 780;
     int MAP_XPOS = 0;

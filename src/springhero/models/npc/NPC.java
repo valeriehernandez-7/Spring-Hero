@@ -38,7 +38,7 @@ public class NPC implements Constants {
 
     public void setPosition(Cell cell) {
         this.position = cell.getID();
-        this.sprite.setLocation((cell.getPosition().x - (sprite.getIcon().getIconWidth() / 2)), (cell.getPosition().y - (sprite.getIcon().getIconHeight() / 2)));
+        this.sprite.setLocation((cell.getPosition().x - (this.sprite.getIcon().getIconWidth() / 2)), (cell.getPosition().y - (this.sprite.getIcon().getIconHeight() / 2)));
         cell.setEntity(getClass().getSimpleName());
     }
 }

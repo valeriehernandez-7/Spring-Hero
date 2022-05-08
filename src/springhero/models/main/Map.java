@@ -11,6 +11,7 @@ public class Map implements Constants {
     public Map() {
         grid = new Cell[MAP_GRID_ROWS][MAP_GRID_COLS];
         cellPositioning();
+        update();
     }
 
     public Cell[][] getGrid() {

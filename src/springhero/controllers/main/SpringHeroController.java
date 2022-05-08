@@ -1,6 +1,6 @@
 package springhero.controllers.main;
 
-import springhero.models.main.Constants.screens;
+import springhero.models.main.Constants;
 import springhero.models.main.SpringHero;
 import springhero.views.main.SpringHeroView;
 
@@ -12,7 +12,7 @@ import java.awt.event.KeyListener;
  * @author <a href="https://github.com/valeriehernandez-7">Valerie M. Hernández Fernández</a>
  * @author <a href="https://github.com/Mariana612">Mariana Navarro Jiménez</a>
  */
-public class SpringHeroController implements KeyListener {
+public class SpringHeroController implements Constants, KeyListener {
 
     private final SpringHero springHero;
     private final SpringHeroView springHeroView;

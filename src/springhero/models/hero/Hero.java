@@ -2,25 +2,25 @@ package springhero.models.hero;
 
 import springhero.models.main.Cell;
 import springhero.models.main.Constants;
+import springhero.models.main.Map;
 import springhero.models.npc.Ally;
 import springhero.models.npc.Enemy;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 public class Hero implements Constants {
 
     private JLabel sprite;
     private Point position;
     private int health;
-    private Cell oldCell;
     private final ImageIcon upImg, downImg, leftImg, rightImg;
 
     public Hero(Cell cell) {
         this.sprite = new JLabel();
         this.position = cell.getID();
         this.health = 15;
-        this.oldCell = cell;
         this.upImg = new ImageIcon(HERO_SRC + "hero-w.png");
         this.downImg = new ImageIcon(HERO_SRC + "hero-s.png");
         this.leftImg = new ImageIcon(HERO_SRC + "hero-a.png");
@@ -48,10 +48,9 @@ public class Hero implements Constants {
 
     public void setPosition(Cell cell) {
         this.position = cell.getID();
-        this.oldCell.resetEntity();
         this.sprite.setLocation((cell.getPosition().x - (this.sprite.getIcon().getIconWidth() / 2)), (cell.getPosition().y - (this.sprite.getIcon().getIconHeight() / 2)));
         cell.setEntity(getClass().getSimpleName());
-        this.oldCell = cell;
+
     }
 
     public int getHealth() {
@@ -67,6 +66,20 @@ public class Hero implements Constants {
             case ALLY -> this.health++;
             case ENEMY -> this.health--;
         }
+    }
+    public void moveHero(view view, Map map , Point newPosition){
+        List<Cell> neighbors = map.getNeighbors(position);
+        for(Cell neighbor : neighbors){
+            if(neighbor.getID()==newPosition){
+                setPosition(map.getCell(newPosition));
+                setSprite(view);
+                this.position = newPosition;
+                //notify
+                break;
+            }
+        }
+
+
     }
 
 

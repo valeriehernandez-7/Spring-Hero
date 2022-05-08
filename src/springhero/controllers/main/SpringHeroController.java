@@ -95,28 +95,26 @@ public class SpringHeroController implements Constants, KeyListener {
     public void keyPressed(KeyEvent keyEvent) {
         Hero hero = springHero.getHero();
         int key = keyEvent.getKeyCode();
+        springHero.getMap().getCell(springHero.getHero().getPosition()).resetEntity();
+
         if (getSpringHeroScreenview() == screens.GAME) {
             if (key == KeyEvent.VK_W) {
-                hero.setPosition(springHero.getMap().getCell(new Point(hero.getPosition().x,hero.getPosition().y++)));
-                hero.setSprite(view.UP);
+                System.out.println("UP"); // TODO: DELETE LINE
+                hero.moveHero(view.UP,springHero.getMap(),new Point(hero.getPosition().x,hero.getPosition().y+1));
                 // TODO: HERO UP()
             }
             if (key == KeyEvent.VK_S) {
                 System.out.println("DOWN"); // TODO: DELETE LINE
-                hero.setPosition(springHero.getMap().getCell(new Point(hero.getPosition().x,hero.getPosition().y-1)));
-                hero.setSprite(view.DOWN);
+                hero.moveHero(view.UP,springHero.getMap(),new Point(hero.getPosition().x,hero.getPosition().y-1));
                 // TODO: HERO DOWN()
             }
             if (key == KeyEvent.VK_A) {
                 System.out.println("LEFT"); // TODO: DELETE LINE
-                hero.setPosition(springHero.getMap().getCell(new Point(hero.getPosition().x-1,hero.getPosition().y)));
-                hero.setSprite(view.LEFT);
+                hero.moveHero(view.UP,springHero.getMap(),new Point(hero.getPosition().x-1,hero.getPosition().y));
                 // TODO: HERO LEFT()
             }
             if (key == KeyEvent.VK_D) {
-                System.out.println("RIGHT"); // TODO: DELETE LINE
-                hero.setPosition(springHero.getMap().getCell(new Point(hero.getPosition().x++,hero.getPosition().y)));
-                hero.setSprite(view.RIGHT);
+                hero.moveHero(view.UP,springHero.getMap(),new Point(hero.getPosition().x+1,hero.getPosition().y));
                 // TODO: HERO RIGHT()
             }
             if (key == KeyEvent.VK_F) {

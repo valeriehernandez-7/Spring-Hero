@@ -53,7 +53,7 @@ public class Map implements Constants {
         return positions;
     }
 
-    private List<Cell> getNeighbors(Point origin) {
+    public List<Cell> getNeighbors(Point origin) {
         List<Cell> neighbors = new ArrayList<>();
         List<Point> positions = getPositions(origin);
         if (!positions.isEmpty()) {

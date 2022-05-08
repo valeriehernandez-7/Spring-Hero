@@ -40,26 +40,44 @@ public class SpringHeroView extends JFrame implements Constants {
 
     private void getUiComponents() {
         // hud panel
-        hud = jPanelSetup();
-        // TO DO: add progress bars to hud
+        hud = jPanelSetup(false);
+        heroHealthBar = progressBarSetup(0, 10, 90, 40, HERO_HEALTH_BAR_COLOR);
+        // TODO : heroHealthBar.setMaximum(hero.getHealth())
+        hud.add(heroHealthBar);
+        alliesRescuedBar = progressBarSetup(0, 10, 331, 40, ALLIES_RESCUED_BAR_COLOR);
+        // TODO : alliesRescuedBar.setMaximum(allies.getSize())
+        hud.add(alliesRescuedBar);
+        enemiesDestroyedBar = progressBarSetup(0, 10, 572, 40, ENEMIES_DESTROYED_BAR_COLOR);
+        // TODO : enemiesDestroyedBar.setMaximum(enemies.getSize())
+        hud.add(enemiesDestroyedBar);
         getContentPane().add(hud);
         // characters panel
-        characters = jPanelSetup();
-        // TO DO: add Hero & NPCs Sprites
+        characters = jPanelSetup(false);
+        // TODO : add Hero & NPCs Sprites
         getContentPane().add(characters);
         // background panel
-        background = jPanelSetup();
-        backgroundSetup(screens.WELCOME);
+        background = jPanelSetup(true);
+        screenSetup(screens.WELCOME);
         background.add(backgroundLbl);
         getContentPane().add(background);
     }
 
-    public void backgroundSetup(screens screenName) {
+    public void screenSetup(screens screenName) {
         ImageIcon backgroundImg = new ImageIcon();
         switch (screenName) {
-            case WELCOME -> backgroundImg = WELCOME_BKG_IMG;
-            case CONTROLS -> backgroundImg = CONTROLS_BKG_IMG;
-            case GAME -> backgroundImg = GAME_BKG_IMG;
+            case WELCOME -> {
+                backgroundImg = WELCOME_BKG_IMG;
+                hud.setVisible(false);
+                characters.setVisible(false);
+            }
+            case CONTROLS -> {
+                backgroundImg = CONTROLS_BKG_IMG;
+            }
+            case GAME -> {
+                backgroundImg = GAME_BKG_IMG;
+                hud.setVisible(true);
+                characters.setVisible(true);
+            }
         }
         if (backgroundImg.getImage() != null) {
             backgroundLbl.setIcon(backgroundImg);
@@ -73,18 +91,22 @@ public class SpringHeroView extends JFrame implements Constants {
         return label;
     }
 
-    private JProgressBar progressBarSetup (int min, int max, int posX, int posY, Color color) {
+    private JProgressBar progressBarSetup(int min, int max, int posX, int posY, Color color) {
         JProgressBar progressBar = new JProgressBar(min, max);
-        progressBar.setBounds(posX, posY, 137, 33);;
+        progressBar.setBounds(posX, posY, 135, 32);
+        progressBar.setBackground(NO_COLOR);
         progressBar.setForeground(color);
+        progressBar.setBorder(null);
         progressBar.setBorderPainted(false);
+        progressBar.setValue(progressBar.getMaximum());
         return progressBar;
     }
 
-    private JPanel jPanelSetup() {
+    private JPanel jPanelSetup(boolean visible) {
         JPanel jPanel = new JPanel(null);
         jPanel.setOpaque(false);
         jPanel.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+        jPanel.setVisible(visible);
         return jPanel;
     }
 }

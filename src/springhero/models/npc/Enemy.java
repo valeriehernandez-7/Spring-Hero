@@ -47,7 +47,7 @@ public class Enemy extends NPC {
     }
 
     public void moveTo() {
-        // TO DO: check if next position is available
+        // TODO : check if next position is available
         if (position.x != target.x) {
             position.x += ((target.x - position.x) / Math.abs(target.x - position.x));
         }

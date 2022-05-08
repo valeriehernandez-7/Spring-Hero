@@ -41,37 +41,37 @@ public class SpringHeroController implements KeyListener {
         int key = keyEvent.getKeyCode();
         if (getSpringHeroScreenview() == screens.GAME) {
             if (key == KeyEvent.VK_W) {
-                System.out.println("UP"); // TO DO: DELETE LINE
-                // TO DO: HERO UP()
+                System.out.println("UP"); // TODO: DELETE LINE
+                // TODO: HERO UP()
             }
             if (key == KeyEvent.VK_S) {
-                System.out.println("DOWN"); // TO DO: DELETE LINE
-                // TO DO: HERO DOWN()
+                System.out.println("DOWN"); // TODO: DELETE LINE
+                // TODO: HERO DOWN()
             }
             if (key == KeyEvent.VK_A) {
-                System.out.println("LEFT"); // TO DO: DELETE LINE
-                // TO DO: HERO LEFT()
+                System.out.println("LEFT"); // TODO: DELETE LINE
+                // TODO: HERO LEFT()
             }
             if (key == KeyEvent.VK_D) {
-                System.out.println("RIGHT"); // TO DO: DELETE LINE
-                // TO DO: HERO RIGHT()
+                System.out.println("RIGHT"); // TODO: DELETE LINE
+                // TODO: HERO RIGHT()
             }
             if (key == KeyEvent.VK_F) {
-                System.out.println("ATTACK"); // TO DO: DELETE LINE
-                // TO DO: HERO ATTACK()
+                System.out.println("ATTACK"); // TODO: DELETE LINE
+                // TODO: HERO ATTACK()
             }
-            // TO DO: observer events
-            // TO DO: map.update()
+            // TODO: observer events
+            // TODO: map.update()
         } else if (getSpringHeroScreenview() == screens.CONTROLS) {
             if (key == KeyEvent.VK_P) {
                 setSpringHeroScreenview(screens.GAME);
-                this.springHeroView.backgroundSetup(getSpringHeroScreenview());
-                // TO DO: gameInit()
+                this.springHeroView.screenSetup(getSpringHeroScreenview());
+                // TODO: gameInit()
             }
         }  else if (getSpringHeroScreenview() == screens.WELCOME) {
             if (key == KeyEvent.VK_X) {
                 setSpringHeroScreenview(screens.CONTROLS);
-                this.springHeroView.backgroundSetup(getSpringHeroScreenview());
+                this.springHeroView.screenSetup(getSpringHeroScreenview());
             }
         }
     }

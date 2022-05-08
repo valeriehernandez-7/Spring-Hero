@@ -12,8 +12,9 @@ public interface Constants {
     String ENEMIES_SRC = RESOURCES_SRC + "assets/npc/enemies/";
 
     // colors
+    Color NO_COLOR = new Color(0, 0, 0, 0);
     Color HERO_HEALTH_BAR_COLOR = new Color(243, 136, 245);
-    Color ALLIES_RESCUED_BAR_COLOR = new Color(251, 253, 253 );
+    Color ALLIES_RESCUED_BAR_COLOR = new Color(251, 253, 253);
     Color ENEMIES_DESTROYED_BAR_COLOR = new Color(15, 238, 250);
 
     // calc

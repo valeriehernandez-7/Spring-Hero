@@ -3,17 +3,13 @@ package springhero.models.npc;
 import springhero.models.main.Cell;
 
 import javax.swing.ImageIcon;
-import java.awt.Point;
 
 public class Enemy extends NPC {
 
     private boolean defeated;
-    private Point target;
-    private int power;
 
     public Enemy(Cell cell) {
         this.defeated = false;
-        this.power = 1;
         this.upImg = new ImageIcon(ENEMIES_SRC + "enemy-w.png");
         this.downImg = new ImageIcon(ENEMIES_SRC + "enemy-s.png");
         this.leftImg = new ImageIcon(ENEMIES_SRC + "enemy-a.png");
@@ -30,29 +26,13 @@ public class Enemy extends NPC {
         this.defeated = defeated;
     }
 
-    public Point getTarget() {
-        return target;
-    }
-
-    public void setTarget(Point target) {
-        this.target = target;
-    }
-
-    public int getPower() {
-        return power;
-    }
-
-    public void setPower(int power) {
-        this.power = power;
-    }
-
     public void move() {
         // TODO : check if next position is available
-        if (position.x != target.x) {
-            position.x += ((target.x - position.x) / Math.abs(target.x - position.x));
+        if (this.position.x != this.target.x) {
+            this.position.x += ((this.target.x - this.position.x) / Math.abs(this.target.x - this.position.x));
         }
-        if (position.y != target.y) {
-            position.y += ((target.y - position.y) / Math.abs(target.y - position.y));
+        if (this.position.y != this.target.y) {
+            this.position.y += ((this.target.y - this.position.y) / Math.abs(this.target.y - this.position.y));
         }
     }
 }

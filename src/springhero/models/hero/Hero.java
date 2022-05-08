@@ -6,9 +6,10 @@ import springhero.models.main.Map;
 import springhero.models.npc.Ally;
 import springhero.models.npc.Enemy;
 
-import javax.swing.*;
-import java.awt.*;
-import java.util.List;
+import javax.swing.JLabel;
+import javax.swing.ImageIcon;
+import java.awt.Point;
+import java.awt.Rectangle;
 
 public class Hero implements Constants {
 
@@ -50,7 +51,6 @@ public class Hero implements Constants {
         this.position = cell.getID();
         this.sprite.setLocation((cell.getPosition().x - (this.sprite.getIcon().getIconWidth() / 2)), (cell.getPosition().y - (this.sprite.getIcon().getIconHeight() / 2)));
         cell.setEntity(getClass().getSimpleName());
-
     }
 
     public int getHealth() {
@@ -67,21 +67,30 @@ public class Hero implements Constants {
             case ENEMY -> this.health--;
         }
     }
-    public void moveHero(view view, Map map , Point newPosition){
-        List<Cell> neighbors = map.getNeighbors(position);
-        for(Cell neighbor : neighbors){
-            if(neighbor.getID()==newPosition){
-                setPosition(map.getCell(newPosition));
-                setSprite(view);
-                this.position = newPosition;
-                //notify
-                break;
+
+    public void move(view direction, Map map) {
+        Cell currentCell = map.getCell(this.position);
+        Point nextPosition = null;
+        switch (direction) {
+            case UP -> {
+                nextPosition = new Point(this.position.x - 1, this.position.y);
+            }
+            case DOWN -> {
+                nextPosition = new Point(this.position.x + 1, this.position.y);
+            }
+            case LEFT -> {
+                nextPosition = new Point(this.position.x, this.position.y - 1);
+            }
+            case RIGHT -> {
+                nextPosition = new Point(this.position.x, this.position.y + 1);
             }
         }
-
-
+        if ((nextPosition != null) & (currentCell.getNeighbors().contains(map.getCell(nextPosition)))) {
+            this.position = nextPosition;
+            setSprite(direction);
+            currentCell.resetEntity();
+        }
     }
-
 
     public void rescue(Ally ally) {}
 

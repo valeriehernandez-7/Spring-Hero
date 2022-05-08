@@ -12,6 +12,7 @@ public class NPC implements Constants {
 
     protected JLabel sprite = new JLabel();
     protected Point position;
+    protected Point target;
     protected ImageIcon upImg, downImg, leftImg, rightImg;
 
     public JLabel getSprite() {
@@ -40,5 +41,13 @@ public class NPC implements Constants {
         this.position = cell.getID();
         this.sprite.setLocation((cell.getPosition().x - (this.sprite.getIcon().getIconWidth() / 2)), (cell.getPosition().y - (this.sprite.getIcon().getIconHeight() / 2)));
         cell.setEntity(getClass().getSimpleName());
+    }
+
+    public Point getTarget() {
+        return target;
+    }
+
+    public void setTarget(Point target) {
+        this.target = target;
     }
 }

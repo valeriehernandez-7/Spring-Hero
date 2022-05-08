@@ -9,7 +9,6 @@ import springhero.models.npc.Enemy;
 import springhero.models.npc.NPCFactory;
 import springhero.views.main.SpringHeroView;
 
-import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.List;
@@ -93,33 +92,23 @@ public class SpringHeroController implements Constants, KeyListener {
 
     @Override
     public void keyPressed(KeyEvent keyEvent) {
-        Hero hero = springHero.getHero();
         int key = keyEvent.getKeyCode();
-        springHero.getMap().getCell(springHero.getHero().getPosition()).resetEntity();
-
         if (getSpringHeroScreenview() == screens.GAME) {
             if (key == KeyEvent.VK_W) {
-                System.out.println("UP"); // TODO: DELETE LINE
-                hero.moveHero(view.UP,springHero.getMap(),new Point(hero.getPosition().x,hero.getPosition().y+1));
-                // TODO: HERO UP()
+                getSpringHeroHero().move(view.UP, getSpringHeroMap());
             }
             if (key == KeyEvent.VK_S) {
-                System.out.println("DOWN"); // TODO: DELETE LINE
-                hero.moveHero(view.UP,springHero.getMap(),new Point(hero.getPosition().x,hero.getPosition().y-1));
-                // TODO: HERO DOWN()
+                getSpringHeroHero().move(view.DOWN, getSpringHeroMap());
             }
             if (key == KeyEvent.VK_A) {
-                System.out.println("LEFT"); // TODO: DELETE LINE
-                hero.moveHero(view.UP,springHero.getMap(),new Point(hero.getPosition().x-1,hero.getPosition().y));
-                // TODO: HERO LEFT()
+                getSpringHeroHero().move(view.LEFT, getSpringHeroMap());
             }
             if (key == KeyEvent.VK_D) {
-                hero.moveHero(view.UP,springHero.getMap(),new Point(hero.getPosition().x+1,hero.getPosition().y));
-                // TODO: HERO RIGHT()
+                getSpringHeroHero().move(view.RIGHT, getSpringHeroMap());
             }
             if (key == KeyEvent.VK_F) {
                 System.out.println("ATTACK"); // TODO: DELETE LINE
-                // TODO: HERO ATTACK()
+                // TODO: getSpringHeroHero().attack();
             }
             // TODO: observer events
             // TODO: map.update()

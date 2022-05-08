@@ -109,5 +109,4 @@ public class SpringHeroView extends JFrame implements Constants {
         jPanel.setVisible(visible);
         return jPanel;
     }
-
 }

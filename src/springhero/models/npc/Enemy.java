@@ -15,8 +15,7 @@ public class Enemy extends NPC {
         this.downImg = new ImageIcon(ENEMIES_SRC + "enemy-s.png");
         this.leftImg = new ImageIcon(ENEMIES_SRC + "enemy-a.png");
         this.rightImg = new ImageIcon(ENEMIES_SRC + "enemy-d.png");
-        this.setSprite(view.RIGHT);
-        this.setPosition(cell);
+        this.updateSprite(view.RIGHT, cell);
         this.setTarget(hero.getPosition());
         hero.attachObserver(this);
     }

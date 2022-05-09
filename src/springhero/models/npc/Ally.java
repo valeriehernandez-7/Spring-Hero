@@ -16,8 +16,7 @@ public class Ally extends NPC {
         this.downImg = new ImageIcon(ALLIES_SRC + "ally-s.png");
         this.leftImg = new ImageIcon(ALLIES_SRC + "ally-a.png");
         this.rightImg = new ImageIcon(ALLIES_SRC + "ally-d.png");
-        this.setSprite(view.RIGHT);
-        this.setPosition(cell);
+        this.updateSprite(view.RIGHT, cell);
         this.setTarget(hero.getPosition());
         this.setVisible(false);
         hero.attachObserver(this);

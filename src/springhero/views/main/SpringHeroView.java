@@ -3,7 +3,6 @@ package springhero.views.main;
 import springhero.controllers.main.SpringHeroController;
 import springhero.models.hero.Hero;
 import springhero.models.main.Constants;
-import springhero.models.main.Map;
 import springhero.models.npc.Ally;
 import springhero.models.npc.Enemy;
 
@@ -57,7 +56,6 @@ public class SpringHeroView extends JFrame implements Constants {
         getContentPane().add(hud);
         // characters panel
         characters = jPanelSetup(false);
-        // TODO : add Hero & NPCs Sprites
         getContentPane().add(characters);
         // background panel
         background = jPanelSetup(true);
@@ -123,10 +121,32 @@ public class SpringHeroView extends JFrame implements Constants {
         }
     }
 
-    public void update(boolean gameOver, int level, Map map, Hero hero, List<Ally> allies, List<Enemy> enemies) {
-        if (!gameOver) {
-            characters.removeAll();
+    private void updateHero(Hero hero) {
+        characters.add(hero.getSprite());
+    }
 
+    private void updateAllies(List<Ally> allies) {
+        for (Ally ally : allies) {
+            characters.add(ally.getSprite());
+        }
+    }
+
+    private void updateEnemies(List<Enemy> enemies) {
+        for (Enemy enemy : enemies) {
+            characters.add(enemy.getSprite());
+        }
+    }
+
+    private void updateCharacters(Hero hero, List<Ally> allies, List<Enemy> enemies) {
+        characters.removeAll();
+        updateHero(hero);
+        updateAllies(allies);
+        updateEnemies(enemies);
+    }
+
+    public void update(boolean gameOver, int level, Hero hero, List<Ally> allies, List<Enemy> enemies) {
+        if (!gameOver) {
+            updateCharacters(hero, allies, enemies);
         } else {
             gameOver(level);
         }

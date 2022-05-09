@@ -35,6 +35,16 @@ public class Map implements Constants {
         return grid[row][column];
     }
 
+    public boolean isCell(Point cellID) {
+        boolean isCell = false;
+        if (0 <= cellID.x & cellID.x <= MAP_GRID_ROWS - 1) {
+            if (0 <= cellID.y & cellID.y <= MAP_GRID_COLS - 1) {
+                isCell = true;
+            }
+        }
+        return isCell;
+    }
+
     private List<Point> getPositions(Point origin) {
         Point[] directions = new Point[]{
                 new Point(origin.x - 1, origin.y), // UP

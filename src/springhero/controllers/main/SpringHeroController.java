@@ -23,9 +23,10 @@ public class SpringHeroController implements Constants, KeyListener {
     private final SpringHero springHero;
     private final SpringHeroView springHeroView;
 
-    public SpringHeroController(){
+    public SpringHeroController() {
         this.springHero = new SpringHero();
         this.springHeroView = new SpringHeroView(this);
+        this.updateSpringHeroView();
     }
 
     public screens getSpringHeroScreenview() {
@@ -93,10 +94,12 @@ public class SpringHeroController implements Constants, KeyListener {
     }
 
     @Override
-    public void keyTyped(KeyEvent keyEvent) {}
+    public void keyTyped(KeyEvent keyEvent) {
+    }
 
     @Override
-    public void keyReleased(KeyEvent keyEvent) {}
+    public void keyReleased(KeyEvent keyEvent) {
+    }
 
     @Override
     public void keyPressed(KeyEvent keyEvent) {
@@ -127,7 +130,7 @@ public class SpringHeroController implements Constants, KeyListener {
                 this.springHeroView.screenSetup(getSpringHeroScreenview());
                 // TODO: gameInit()
             }
-        }  else if (getSpringHeroScreenview() == screens.WELCOME) {
+        } else if (getSpringHeroScreenview() == screens.WELCOME) {
             if (key == KeyEvent.VK_X) {
                 setSpringHeroScreenview(screens.CONTROLS);
                 this.springHeroView.screenSetup(getSpringHeroScreenview());
@@ -136,6 +139,6 @@ public class SpringHeroController implements Constants, KeyListener {
     }
 
     public void updateSpringHeroView() {
-        this.springHeroView.update(isSpringHeroGameOver(), getSpringHeroLevel(), getSpringHeroMap(), getSpringHeroHero(), getSpringHeroAllies(), getSpringHeroEnemies());
+        this.springHeroView.update(isSpringHeroGameOver(), getSpringHeroLevel(), getSpringHeroHero(), getSpringHeroAllies(), getSpringHeroEnemies());
     }
 }

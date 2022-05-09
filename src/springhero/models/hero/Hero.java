@@ -17,28 +17,26 @@ import java.beans.PropertyChangeSupport;
 
 public class Hero implements Constants, Observable {
 
-    private JLabel sprite;
+    private JLabel sprite = new JLabel();
     private Point position;
     private int health;
     private final ImageIcon upImg, downImg, leftImg, rightImg;
     private PropertyChangeSupport observerManager = new PropertyChangeSupport(this);
 
     public Hero(Cell cell) {
-        this.sprite = new JLabel();
-        this.position = cell.getID();
         this.health = HERO_MAX_HEALTH;
         this.upImg = new ImageIcon(HERO_SRC + "hero-w.png");
         this.downImg = new ImageIcon(HERO_SRC + "hero-s.png");
         this.leftImg = new ImageIcon(HERO_SRC + "hero-a.png");
         this.rightImg = new ImageIcon(HERO_SRC + "hero-d.png");
-        this.setSprite(view.RIGHT);
+        this.updateSprite(view.RIGHT, cell);
     }
 
     public JLabel getSprite() {
         return sprite;
     }
 
-    private void setSprite(view view) {
+    private void updateSprite(view view, Cell cell) {
         ImageIcon icon = new ImageIcon();
         switch (view) {
             case UP -> icon = this.upImg;
@@ -49,6 +47,7 @@ public class Hero implements Constants, Observable {
         if (icon.getImage() != null) {
             this.sprite.setIcon(icon);
             this.sprite.setBounds(new Rectangle(this.sprite.getIcon().getIconWidth(), this.sprite.getIcon().getIconHeight()));
+            this.setPosition(cell);
         }
     }
 
@@ -97,10 +96,11 @@ public class Hero implements Constants, Observable {
             case LEFT -> nextPosition = new Point(this.position.x, this.position.y - 1);
             case RIGHT -> nextPosition = new Point(this.position.x, this.position.y + 1);
         }
-        if ((nextPosition != null) & (currentCell.getNeighbors().contains(map.getCell(nextPosition)))) {
-            setPosition(map.getCell(nextPosition));
-            setSprite(direction);
-            currentCell.resetEntity();
+        if ((nextPosition != null) && map.isCell(nextPosition)) {
+            if (currentCell.getNeighbors().contains(map.getCell(nextPosition))) {
+                updateSprite(direction, map.getCell(nextPosition));
+                currentCell.resetEntity();
+            }
         }
     }
 

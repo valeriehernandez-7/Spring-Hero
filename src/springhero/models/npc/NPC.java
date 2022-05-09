@@ -1,6 +1,5 @@
 package springhero.models.npc;
 
-import springhero.models.hero.Hero;
 import springhero.models.main.Cell;
 import springhero.models.main.Constants;
 
@@ -22,7 +21,7 @@ public class NPC implements Constants, PropertyChangeListener {
         return sprite;
     }
 
-    public void setSprite(view view) {
+    protected void updateSprite(view view, Cell cell) {
         ImageIcon icon = new ImageIcon();
         switch (view) {
             case UP -> icon = this.upImg;
@@ -33,6 +32,7 @@ public class NPC implements Constants, PropertyChangeListener {
         if (icon.getImage() != null) {
             this.sprite.setIcon(icon);
             this.sprite.setBounds(new Rectangle(this.sprite.getIcon().getIconWidth(), this.sprite.getIcon().getIconHeight()));
+            this.setPosition(cell);
         }
     }
 

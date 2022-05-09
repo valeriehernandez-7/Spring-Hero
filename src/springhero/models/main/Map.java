@@ -18,15 +18,6 @@ public class Map implements Constants {
         return grid;
     }
 
-    private void cellPositioning() {
-        for (int row = 0; row < grid.length; row++) {
-            for (int col = 0; col < grid[row].length; col++) {
-                Point position = new Point((MAP_XPOS + (CELL_WIDTH / 2)) + (col * CELL_WIDTH), (MAP_YPOS + (CELL_HEIGHT / 2)) + (row * CELL_HEIGHT));
-                grid[row][col] = new Cell(new Point(row, col), position);
-            }
-        }
-    }
-
     public Cell getCell(Point ID) {
         return grid[ID.x][ID.y];
     }
@@ -43,6 +34,19 @@ public class Map implements Constants {
             }
         }
         return isCell;
+    }
+
+    private void cellPositioning() {
+        for (int row = 0; row < grid.length; row++) {
+            for (int col = 0; col < grid[row].length; col++) {
+                Point position = new Point((MAP_XPOS + (CELL_WIDTH / 2)) + (col * CELL_WIDTH), (MAP_YPOS + (CELL_HEIGHT / 2)) + (row * CELL_HEIGHT));
+                grid[row][col] = new Cell(new Point(row, col), position);
+            }
+        }
+    }
+
+    private int getRandomInteger(int origin, int bound) {
+        return (int) ((Math.random() * (bound - origin)) + origin);
     }
 
     private List<Point> getPositions(Point origin) {
@@ -72,6 +76,29 @@ public class Map implements Constants {
             }
         }
         return neighbors;
+    }
+
+    public Cell findEmptyCell() {
+        Cell emptyCell = null;
+        while(emptyCell == null) {
+            Point emptyCellID = new Point();
+            emptyCellID.x = getRandomInteger(0, MAP_GRID_ROWS);
+            emptyCellID.y = getRandomInteger(0, MAP_GRID_COLS);
+            if (isCell(emptyCellID) && getCell(emptyCellID).getEntity().equals(Cell.class.getSimpleName())) {
+                emptyCell = getCell(emptyCellID);
+            }
+        }
+        return emptyCell;
+    }
+
+    public void showInfo() {
+        for (Cell[] container : grid) {
+            System.out.println("\n");
+            for (Cell cell : container) {
+                System.out.print("\t[\t] ID [" + cell.getID().x + "][" + cell.getID().y + "] POS (" + cell.getPosition().x + "," + cell.getPosition().y + ") ENTITY \"" + cell.getEntity() + "\"\t\t");
+            }
+        }
+        System.out.println("\n");
     }
 
     public void update() {

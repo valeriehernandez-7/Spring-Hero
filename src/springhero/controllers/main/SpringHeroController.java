@@ -26,7 +26,7 @@ public class SpringHeroController implements Constants, KeyListener {
     public SpringHeroController() {
         this.springHero = new SpringHero();
         this.springHeroView = new SpringHeroView(this);
-        this.updateSpringHeroView();
+        newGame();
     }
 
     public screens getSpringHeroScreenview() {
@@ -140,5 +140,35 @@ public class SpringHeroController implements Constants, KeyListener {
 
     public void updateSpringHeroView() {
         this.springHeroView.update(isSpringHeroGameOver(), getSpringHeroLevel(), getSpringHeroHero(), getSpringHeroAllies(), getSpringHeroEnemies());
+    }
+
+    public void allyGenerator(int amount) {
+        for (int id = 0; id < amount; id++) {
+            Ally ally = (Ally) getSpringHeroNpcFactory().getNPC(NPCType.ALLY, getSpringHeroMap().findEmptyCell(), getSpringHeroHero());
+            getSpringHeroAllies().add(ally);
+        }
+    }
+
+    public void enemyGenerator(int amount) {
+        for (int id = 0; id < amount; id++) {
+            Enemy enemy = (Enemy) getSpringHeroNpcFactory().getNPC(NPCType.ENEMY, getSpringHeroMap().findEmptyCell(), getSpringHeroHero());
+            getSpringHeroEnemies().add(enemy);
+        }
+    }
+
+    public void newGame() {
+        allyGenerator(ALLIES_MAX_AMOUNT);
+        enemyGenerator(ENEMIES_MAX_AMOUNT);
+        play();
+    }
+
+    public void play() {
+        updateSpringHeroView();
+        while (!isSpringHeroGameOver()) {
+            if (getSpringHeroHero().getHealth() == 0) {
+                break;
+            }
+            // TODO : game loop
+        }
     }
 }

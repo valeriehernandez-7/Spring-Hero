@@ -21,7 +21,7 @@ public interface Constants {
     // calc
     int HERO_MAX_HEALTH = 15;
     int ALLIES_MAX_AMOUNT = HERO_MAX_HEALTH / 2;
-    int ENEMIES_MAX_AMOUNT = HERO_MAX_HEALTH + 1;
+    int ENEMIES_MAX_AMOUNT = (HERO_MAX_HEALTH / 2) + 3;
     int WINDOW_HEIGHT = 440;
     int WINDOW_WIDTH = 780;
     int MAP_XPOS = 0;

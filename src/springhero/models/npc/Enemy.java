@@ -1,5 +1,6 @@
 package springhero.models.npc;
 
+import springhero.models.hero.Hero;
 import springhero.models.main.Cell;
 
 import javax.swing.ImageIcon;
@@ -8,7 +9,7 @@ public class Enemy extends NPC {
 
     private boolean defeated;
 
-    public Enemy(Cell cell) {
+    public Enemy(Cell cell, Hero hero) {
         this.defeated = false;
         this.upImg = new ImageIcon(ENEMIES_SRC + "enemy-w.png");
         this.downImg = new ImageIcon(ENEMIES_SRC + "enemy-s.png");
@@ -16,7 +17,8 @@ public class Enemy extends NPC {
         this.rightImg = new ImageIcon(ENEMIES_SRC + "enemy-d.png");
         this.setSprite(view.RIGHT);
         this.setPosition(cell);
-        //this.registerObserver();
+        this.setTarget(hero.getPosition());
+        hero.attachObserver(this);
     }
 
     public boolean isDefeated() {

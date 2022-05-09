@@ -17,6 +17,7 @@ public class SpringHero implements Constants {
 
     private screens screenview;
     private boolean gameOver;
+    private int level;
     private Map map;
     private Hero hero;
     private NPCFactory npcFactory;
@@ -26,6 +27,7 @@ public class SpringHero implements Constants {
     public SpringHero() {
         this.screenview = screens.WELCOME;
         this.gameOver = false;
+        this.level = 1;
         this.map = new Map();
         this.hero = new Hero(this.map.getCell(MAP_GRID_CENTER));
         this.npcFactory = new NPCFactory();
@@ -47,6 +49,14 @@ public class SpringHero implements Constants {
 
     public void setGameOver(boolean gameOver) {
         this.gameOver = gameOver;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
     }
 
     public Map getMap() {

@@ -1,5 +1,6 @@
 package springhero.models.npc;
 
+import springhero.models.hero.Hero;
 import springhero.models.main.Cell;
 
 import javax.swing.ImageIcon;
@@ -9,7 +10,7 @@ public class Ally extends NPC {
     private boolean visible;
     private boolean rescued;
 
-    public Ally(Cell cell) {
+    public Ally(Cell cell, Hero hero) {
         this.rescued = false;
         this.upImg = new ImageIcon(ALLIES_SRC + "ally-w.png");
         this.downImg = new ImageIcon(ALLIES_SRC + "ally-s.png");
@@ -17,8 +18,9 @@ public class Ally extends NPC {
         this.rightImg = new ImageIcon(ALLIES_SRC + "ally-d.png");
         this.setSprite(view.RIGHT);
         this.setPosition(cell);
+        this.setTarget(hero.getPosition());
         this.setVisible(false);
-        //this.registerObserver();
+        hero.attachObserver(this);
     }
 
     public boolean isVisible() {

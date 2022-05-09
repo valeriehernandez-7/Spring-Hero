@@ -44,6 +44,14 @@ public class SpringHeroController implements Constants, KeyListener {
         this.springHero.setGameOver(gameOver);
     }
 
+    public int getSpringHeroLevel() {
+        return springHero.getLevel();
+    }
+
+    public void setSpringHeroLevel(int level) {
+        this.springHero.setLevel(level);
+    }
+
     public Map getSpringHeroMap() {
         return springHero.getMap();
     }
@@ -111,7 +119,8 @@ public class SpringHeroController implements Constants, KeyListener {
                 // TODO: getSpringHeroHero().attack();
             }
             // TODO: observer events
-            // TODO: map.update()
+            getSpringHeroMap().update();
+            updateSpringHeroView();
         } else if (getSpringHeroScreenview() == screens.CONTROLS) {
             if (key == KeyEvent.VK_P) {
                 setSpringHeroScreenview(screens.GAME);
@@ -124,5 +133,9 @@ public class SpringHeroController implements Constants, KeyListener {
                 this.springHeroView.screenSetup(getSpringHeroScreenview());
             }
         }
+    }
+
+    public void updateSpringHeroView() {
+        this.springHeroView.update(isSpringHeroGameOver(), getSpringHeroLevel(), getSpringHeroMap(), getSpringHeroHero(), getSpringHeroAllies(), getSpringHeroEnemies());
     }
 }

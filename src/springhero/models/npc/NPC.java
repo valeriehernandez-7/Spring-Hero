@@ -1,6 +1,6 @@
 package springhero.models.npc;
 
-import springhero.models.ObvserverPattern.Observer;
+import springhero.models.hero.Hero;
 import springhero.models.main.Cell;
 import springhero.models.main.Constants;
 
@@ -8,8 +8,10 @@ import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
-public class NPC implements Constants, Observer {
+public class NPC implements Constants, PropertyChangeListener {
 
     protected JLabel sprite = new JLabel();
     protected Point position;
@@ -53,11 +55,7 @@ public class NPC implements Constants, Observer {
     }
 
     @Override
-    public void update(Cell cell) {
-        this.target = cell.getID();
-
+    public void propertyChange(PropertyChangeEvent changeEvent) {
+        setTarget((Point)changeEvent.getNewValue());
     }
-    public void registerObserver(){} //hero.attach(this)
-    public void detachObserver(){} //hero.detach(this)
-
 }

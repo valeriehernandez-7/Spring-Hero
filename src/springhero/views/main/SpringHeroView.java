@@ -1,14 +1,21 @@
 package springhero.views.main;
 
+import springhero.controllers.main.SpringHeroController;
+import springhero.models.hero.Hero;
 import springhero.models.main.Constants;
+import springhero.models.main.Map;
+import springhero.models.npc.Ally;
+import springhero.models.npc.Enemy;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.ImageIcon;
 import java.awt.Color;
 import java.awt.event.KeyListener;
+import java.util.List;
 
 /**
  * Spring Hero Game view class.
@@ -41,14 +48,11 @@ public class SpringHeroView extends JFrame implements Constants {
     private void getUiComponents() {
         // hud panel
         hud = jPanelSetup(false);
-        heroHealthBar = progressBarSetup(0, 10, 90, 40, HERO_HEALTH_BAR_COLOR);
-        // TODO : heroHealthBar.setMaximum(hero.getHealth())
+        heroHealthBar = progressBarSetup(0, HERO_MAX_HEALTH, 90, 40, HERO_HEALTH_BAR_COLOR);
         hud.add(heroHealthBar);
-        alliesRescuedBar = progressBarSetup(0, 10, 331, 40, ALLIES_RESCUED_BAR_COLOR);
-        // TODO : alliesRescuedBar.setMaximum(allies.getSize())
+        alliesRescuedBar = progressBarSetup(0, ALLIES_MAX_AMOUNT, 331, 40, ALLIES_RESCUED_BAR_COLOR);
         hud.add(alliesRescuedBar);
-        enemiesDestroyedBar = progressBarSetup(0, 10, 572, 40, ENEMIES_DESTROYED_BAR_COLOR);
-        // TODO : enemiesDestroyedBar.setMaximum(enemies.getSize())
+        enemiesDestroyedBar = progressBarSetup(0, ENEMIES_MAX_AMOUNT, 572, 40, ENEMIES_DESTROYED_BAR_COLOR);
         hud.add(enemiesDestroyedBar);
         getContentPane().add(hud);
         // characters panel
@@ -108,5 +112,23 @@ public class SpringHeroView extends JFrame implements Constants {
         jPanel.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
         jPanel.setVisible(visible);
         return jPanel;
+    }
+
+    private void gameOver(int level) {
+        int input = JOptionPane.showConfirmDialog(this, "LEVEL: " + level + "\nDo you want to play another Spring Hero?",
+                "Spring Hero", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, ICON_IMG);
+        dispose();
+        if (input == JOptionPane.YES_OPTION) {
+            new SpringHeroController();
+        }
+    }
+
+    public void update(boolean gameOver, int level, Map map, Hero hero, List<Ally> allies, List<Enemy> enemies) {
+        if (!gameOver) {
+            characters.removeAll();
+
+        } else {
+            gameOver(level);
+        }
     }
 }

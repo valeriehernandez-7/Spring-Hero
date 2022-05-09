@@ -1,16 +1,19 @@
 package springhero.models.hero;
 
-import springhero.models.ObvserverPattern.Observable;
-import springhero.models.ObvserverPattern.Observer;
 import springhero.models.main.Cell;
 import springhero.models.main.Constants;
 import springhero.models.main.Map;
 import springhero.models.npc.Ally;
 import springhero.models.npc.Enemy;
+import springhero.models.observer.Observable;
 
-import javax.swing.*;
-import java.awt.*;
-import java.util.List;
+import javax.swing.JLabel;
+import javax.swing.ImageIcon;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 
 public class Hero implements Constants, Observable {
 
@@ -18,12 +21,12 @@ public class Hero implements Constants, Observable {
     private Point position;
     private int health;
     private final ImageIcon upImg, downImg, leftImg, rightImg;
-    private List<Observer> observerList;
+    private PropertyChangeSupport observerManager = new PropertyChangeSupport(this);
 
     public Hero(Cell cell) {
         this.sprite = new JLabel();
         this.position = cell.getID();
-        this.health = 15;
+        this.health = HERO_MAX_HEALTH;
         this.upImg = new ImageIcon(HERO_SRC + "hero-w.png");
         this.downImg = new ImageIcon(HERO_SRC + "hero-s.png");
         this.leftImg = new ImageIcon(HERO_SRC + "hero-a.png");
@@ -31,9 +34,11 @@ public class Hero implements Constants, Observable {
         this.setSprite(view.RIGHT);
     }
 
-    public JLabel getSprite(){return sprite;}
+    public JLabel getSprite() {
+        return sprite;
+    }
 
-    public void setSprite(view view) {
+    private void setSprite(view view) {
         ImageIcon icon = new ImageIcon();
         switch (view) {
             case UP -> icon = this.upImg;
@@ -52,10 +57,12 @@ public class Hero implements Constants, Observable {
     }
 
 
-    public void setPosition(Cell cell) {
+    private void setPosition(Cell cell) {
+        PropertyChangeEvent positionChanged = new PropertyChangeEvent(this, "position", this.position, cell.getID());
         this.position = cell.getID();
         this.sprite.setLocation((cell.getPosition().x - (this.sprite.getIcon().getIconWidth() / 2)), (cell.getPosition().y - (this.sprite.getIcon().getIconHeight() / 2)));
         cell.setEntity(getClass().getSimpleName());
+        observerManager.firePropertyChange(positionChanged);
     }
 
     public int getHealth() {
@@ -94,7 +101,6 @@ public class Hero implements Constants, Observable {
             setPosition(map.getCell(nextPosition));
             setSprite(direction);
             currentCell.resetEntity();
-            notifyObserver(map.getCell(nextPosition));
         }
     }
 
@@ -102,26 +108,11 @@ public class Hero implements Constants, Observable {
 
     public void attack(Enemy enemy) {}
 
-
-    @Override
-    public void attach(Observer o) {
-        this.observerList.add(o);
-
+    public void attachObserver(PropertyChangeListener newObserver) {
+        observerManager.addPropertyChangeListener(newObserver);
     }
 
-    @Override
-    public void detach(Observer o) {
-        this.observerList.remove(o);
-
-    }
-
-    @Override
-    public void notifyObserver(Cell cell) {
-        if(observerList!= null) {
-            for (Observer observer : observerList) {
-                observer.update(cell);
-            }
-        }
-
+    public void detachObserver(PropertyChangeListener observer) {
+        observerManager.removePropertyChangeListener(observer);
     }
 }

@@ -16,14 +16,16 @@ public class NPC implements Constants, PropertyChangeListener {
     protected Point position;
     protected Point target;
     protected ImageIcon upImg, downImg, leftImg, rightImg;
+    protected view view = Constants.view.RIGHT;
+    protected boolean available = false;
 
     public JLabel getSprite() {
         return sprite;
     }
 
-    protected void updateSprite(view view, Cell cell) {
+    protected void updateSprite(Cell cell) {
         ImageIcon icon = new ImageIcon();
-        switch (view) {
+        switch (getView(cell.getID())) {
             case UP -> icon = this.upImg;
             case DOWN -> icon = this.downImg;
             case LEFT -> icon = this.leftImg;
@@ -33,6 +35,31 @@ public class NPC implements Constants, PropertyChangeListener {
             this.sprite.setIcon(icon);
             this.sprite.setBounds(new Rectangle(this.sprite.getIcon().getIconWidth(), this.sprite.getIcon().getIconHeight()));
             this.setPosition(cell);
+            checkStatus();
+        }
+    }
+
+    protected view getView(Point newPosition) {
+        view newView = this.view;
+        if ((this.target.x != newPosition.x) || (this.target.y != newPosition.y)) {
+            if (this.target.x < newPosition.x) {
+                newView = view.UP;
+            } else if (this.target.x > newPosition.x) {
+                newView = view.DOWN;
+            }
+            if (this.target.y < newPosition.y) {
+                newView = view.LEFT;
+            } else if (this.target.y > newPosition.y) {
+                newView = view.RIGHT;
+            }
+        }
+        this.view = newView;
+        return newView;
+    }
+
+    protected void checkStatus() {
+        if (getPosition().x == getTarget().x && getPosition().y == getTarget().y) {
+            this.available = true;
         }
     }
 
@@ -40,7 +67,7 @@ public class NPC implements Constants, PropertyChangeListener {
         return position;
     }
 
-    public void setPosition(Cell cell) {
+    protected void setPosition(Cell cell) {
         this.position = cell.getID();
         this.sprite.setLocation((cell.getPosition().x - (this.sprite.getIcon().getIconWidth() / 2)), (cell.getPosition().y - (this.sprite.getIcon().getIconHeight() / 2)));
         cell.setEntity(getClass().getSimpleName());
@@ -57,5 +84,6 @@ public class NPC implements Constants, PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent changeEvent) {
         setTarget((Point)changeEvent.getNewValue());
+        checkStatus();
     }
 }

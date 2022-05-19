@@ -87,7 +87,7 @@ public class Hero implements Constants, Observable {
         }
     }
 
-    public void move(view direction, Map map) {
+    public boolean move(view direction, Map map) {
         Cell currentCell = map.getCell(this.position);
         Point nextPosition = null;
         switch (direction) {
@@ -100,8 +100,10 @@ public class Hero implements Constants, Observable {
             if (currentCell.getNeighbors().contains(map.getCell(nextPosition))) {
                 updateSprite(direction, map.getCell(nextPosition));
                 currentCell.resetEntity();
+                return true;
             }
         }
+        return false;
     }
 
     public void rescue(Ally ally) {}

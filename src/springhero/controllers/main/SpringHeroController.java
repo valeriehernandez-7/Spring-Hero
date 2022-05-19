@@ -26,7 +26,6 @@ public class SpringHeroController implements Constants, KeyListener {
     public SpringHeroController() {
         this.springHero = new SpringHero();
         this.springHeroView = new SpringHeroView(this);
-        newGame();
     }
 
     public screens getSpringHeroScreenview() {
@@ -105,30 +104,31 @@ public class SpringHeroController implements Constants, KeyListener {
     public void keyPressed(KeyEvent keyEvent) {
         int key = keyEvent.getKeyCode();
         if (getSpringHeroScreenview() == screens.GAME) {
+            boolean heroPositionChanged = false;
             if (key == KeyEvent.VK_W) {
-                getSpringHeroHero().move(view.UP, getSpringHeroMap());
+                heroPositionChanged = getSpringHeroHero().move(view.UP, getSpringHeroMap());
             }
             if (key == KeyEvent.VK_S) {
-                getSpringHeroHero().move(view.DOWN, getSpringHeroMap());
+                heroPositionChanged = getSpringHeroHero().move(view.DOWN, getSpringHeroMap());
             }
             if (key == KeyEvent.VK_A) {
-                getSpringHeroHero().move(view.LEFT, getSpringHeroMap());
+                heroPositionChanged = getSpringHeroHero().move(view.LEFT, getSpringHeroMap());
             }
             if (key == KeyEvent.VK_D) {
-                getSpringHeroHero().move(view.RIGHT, getSpringHeroMap());
+                heroPositionChanged = getSpringHeroHero().move(view.RIGHT, getSpringHeroMap());
             }
             if (key == KeyEvent.VK_F) {
                 System.out.println("ATTACK"); // TODO: DELETE LINE
                 // TODO: getSpringHeroHero().attack();
             }
-            // TODO: observer events
-            getSpringHeroMap().update();
-            updateSpringHeroView();
+            if (heroPositionChanged) {
+                play();
+            }
         } else if (getSpringHeroScreenview() == screens.CONTROLS) {
             if (key == KeyEvent.VK_P) {
                 setSpringHeroScreenview(screens.GAME);
                 this.springHeroView.screenSetup(getSpringHeroScreenview());
-                // TODO: gameInit()
+                newGame();
             }
         } else if (getSpringHeroScreenview() == screens.WELCOME) {
             if (key == KeyEvent.VK_X) {
@@ -138,37 +138,63 @@ public class SpringHeroController implements Constants, KeyListener {
         }
     }
 
-    public void updateSpringHeroView() {
+    private void updateSpringHeroView() {
+        getSpringHeroMap().update();
         this.springHeroView.update(isSpringHeroGameOver(), getSpringHeroLevel(), getSpringHeroHero(), getSpringHeroAllies(), getSpringHeroEnemies());
     }
 
-    public void allyGenerator(int amount) {
+    private void allyGenerator(int amount) {
         for (int id = 0; id < amount; id++) {
             Ally ally = (Ally) getSpringHeroNpcFactory().getNPC(NPCType.ALLY, getSpringHeroMap().findEmptyCell(), getSpringHeroHero());
             getSpringHeroAllies().add(ally);
         }
     }
 
-    public void enemyGenerator(int amount) {
+    private void enemyGenerator(int amount) {
         for (int id = 0; id < amount; id++) {
             Enemy enemy = (Enemy) getSpringHeroNpcFactory().getNPC(NPCType.ENEMY, getSpringHeroMap().findEmptyCell(), getSpringHeroHero());
             getSpringHeroEnemies().add(enemy);
         }
     }
 
-    public void newGame() {
+    private void newGame() {
         allyGenerator(ALLIES_MAX_AMOUNT);
         enemyGenerator(ENEMIES_MAX_AMOUNT);
-        play();
+        updateSpringHeroView();
     }
 
-    public void play() {
-        updateSpringHeroView();
-        while (!isSpringHeroGameOver()) {
-            if (getSpringHeroHero().getHealth() == 0) {
-                break;
-            }
-            // TODO : game loop
+    private void removeRescuedAllies() {
+        getSpringHeroAllies().removeIf(ally -> ally.isRescued());
+    }
+
+    private void moveEnemies() {
+        for (Enemy enemy : getSpringHeroEnemies()) {
+            enemy.move(getSpringHeroMap());
         }
+    }
+
+    private void removeDefeatedEnemies() {
+        getSpringHeroEnemies().removeIf(enemy -> enemy.isDefeated());
+    }
+
+    private void round() {
+        if (getSpringHeroHero().getHealth() == 0) {
+            setSpringHeroGameOver(true);
+        }
+        if (!isSpringHeroGameOver()) {
+            // TODO : game loop
+            moveEnemies();
+            removeDefeatedEnemies();
+            if (getSpringHeroEnemies().isEmpty()) {
+                setSpringHeroLevel(getSpringHeroLevel() + 1);
+                enemyGenerator(ENEMIES_MAX_AMOUNT);
+                updateSpringHeroView();
+            }
+        }
+    }
+
+    private void play() {
+        round();
+        updateSpringHeroView();
     }
 }

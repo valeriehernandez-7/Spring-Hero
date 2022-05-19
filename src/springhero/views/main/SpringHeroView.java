@@ -123,30 +123,35 @@ public class SpringHeroView extends JFrame implements Constants {
 
     private void updateHero(Hero hero) {
         characters.add(hero.getSprite());
+        heroHealthBar.setValue(hero.getHealth());
     }
 
     private void updateAllies(List<Ally> allies) {
         for (Ally ally : allies) {
             characters.add(ally.getSprite());
         }
+        alliesRescuedBar.setValue(allies.size());
     }
 
     private void updateEnemies(List<Enemy> enemies) {
         for (Enemy enemy : enemies) {
             characters.add(enemy.getSprite());
         }
+        enemiesDestroyedBar.setValue(enemies.size());
     }
 
     private void updateCharacters(Hero hero, List<Ally> allies, List<Enemy> enemies) {
         characters.removeAll();
+        updateEnemies(enemies);
         updateHero(hero);
         updateAllies(allies);
-        updateEnemies(enemies);
+        characters.repaint();
     }
 
     public void update(boolean gameOver, int level, Hero hero, List<Ally> allies, List<Enemy> enemies) {
         if (!gameOver) {
             updateCharacters(hero, allies, enemies);
+            hud.repaint();
         } else {
             gameOver(level);
         }

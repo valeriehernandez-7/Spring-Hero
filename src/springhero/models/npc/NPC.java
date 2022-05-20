@@ -10,14 +10,13 @@ import java.awt.Rectangle;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-public class NPC implements Constants, PropertyChangeListener {
+public abstract class NPC implements Constants, PropertyChangeListener {
 
     protected JLabel sprite = new JLabel();
     protected Point position;
     protected Point target;
     protected ImageIcon upImg, downImg, leftImg, rightImg;
     protected view view = Constants.view.RIGHT;
-    protected boolean available = false;
 
     public JLabel getSprite() {
         return sprite;
@@ -35,7 +34,7 @@ public class NPC implements Constants, PropertyChangeListener {
             this.sprite.setIcon(icon);
             this.sprite.setBounds(new Rectangle(this.sprite.getIcon().getIconWidth(), this.sprite.getIcon().getIconHeight()));
             this.setPosition(cell);
-            checkStatus();
+            updateStatus();
         }
     }
 
@@ -55,12 +54,6 @@ public class NPC implements Constants, PropertyChangeListener {
         }
         this.view = newView;
         return newView;
-    }
-
-    protected void checkStatus() {
-        if (getPosition().x == getTarget().x && getPosition().y == getTarget().y) {
-            this.available = true;
-        }
     }
 
     public Point getPosition() {
@@ -84,6 +77,8 @@ public class NPC implements Constants, PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent changeEvent) {
         setTarget((Point)changeEvent.getNewValue());
-        checkStatus();
+        updateStatus();
     }
+
+    protected abstract void updateStatus();
 }

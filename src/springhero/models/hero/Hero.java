@@ -14,13 +14,16 @@ import java.awt.Rectangle;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.List;
 
 public class Hero implements Constants, Observable {
 
     private JLabel sprite = new JLabel();
     private Point position;
     private int health;
+    private AttackObject rock;
     private final ImageIcon upImg, downImg, leftImg, rightImg;
+    private view view = Constants.view.RIGHT;
     private PropertyChangeSupport observerManager = new PropertyChangeSupport(this);
 
     public Hero(Cell cell) {
@@ -29,7 +32,7 @@ public class Hero implements Constants, Observable {
         this.downImg = new ImageIcon(HERO_SRC + "hero-s.png");
         this.leftImg = new ImageIcon(HERO_SRC + "hero-a.png");
         this.rightImg = new ImageIcon(HERO_SRC + "hero-d.png");
-        this.updateSprite(view.RIGHT, cell);
+        this.updateSprite(this.view, cell);
     }
 
     public JLabel getSprite() {
@@ -45,6 +48,7 @@ public class Hero implements Constants, Observable {
             case RIGHT -> icon = this.rightImg;
         }
         if (icon.getImage() != null) {
+            this.view = view;
             this.sprite.setIcon(icon);
             this.sprite.setBounds(new Rectangle(this.sprite.getIcon().getIconWidth(), this.sprite.getIcon().getIconHeight()));
             this.setPosition(cell);
@@ -87,6 +91,14 @@ public class Hero implements Constants, Observable {
         }
     }
 
+    public AttackObject getRock() {
+        return rock;
+    }
+
+    public void setRock(AttackObject rock) {
+        this.rock = rock;
+    }
+
     public boolean move(view direction, Map map) {
         Cell currentCell = map.getCell(this.position);
         Point nextPosition = null;
@@ -106,9 +118,39 @@ public class Hero implements Constants, Observable {
         return false;
     }
 
-    public void rescue(Ally ally) {}
+    public void rescue(List<Ally> allies) {
+        for (Ally ally: allies) {
+            if (ally.getPosition().equals(getPosition())) {
+                ally.setRescued(true);
+                break;
+            }
+        }
+    }
 
-    public void attack(Enemy enemy) {}
+    public boolean attack(List<Enemy> enemies) {
+        Point enemyPosition = null;
+        switch (this.view) {
+            case UP -> enemyPosition = new Point(this.position.x - 1, this.position.y);
+            case DOWN -> enemyPosition = new Point(this.position.x + 1, this.position.y);
+            case LEFT -> enemyPosition = new Point(this.position.x, this.position.y - 1);
+            case RIGHT -> enemyPosition = new Point(this.position.x, this.position.y + 1);
+        }
+        if (enemyPosition != null) {
+            Enemy enemyToAttack = null;
+            for (Enemy enemy: enemies) {
+                if (enemy.getPosition().equals(enemyPosition)) {
+                    enemyToAttack = enemy;
+                }
+            }
+            if (enemyToAttack != null) {
+                this.rock = new AttackObject(this);
+                this.rock.move(enemyToAttack);
+                enemyToAttack.setDefeated(true);
+                return true;
+            }
+        }
+        return false;
+    }
 
     public void attachObserver(PropertyChangeListener newObserver) {
         observerManager.addPropertyChangeListener(newObserver);

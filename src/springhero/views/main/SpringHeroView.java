@@ -126,6 +126,12 @@ public class SpringHeroView extends JFrame implements Constants {
         heroHealthBar.setValue(hero.getHealth());
     }
 
+    private void updateHeroAttack(Hero hero) {
+        if (hero.getRock() != null) {
+            characters.add(hero.getRock().getSprite());
+        }
+    }
+
     private void updateAllies(List<Ally> allies) {
         for (Ally ally : allies) {
             characters.add(ally.getSprite());
@@ -142,8 +148,9 @@ public class SpringHeroView extends JFrame implements Constants {
 
     private void updateCharacters(Hero hero, List<Ally> allies, List<Enemy> enemies) {
         characters.removeAll();
-        updateEnemies(enemies);
         updateHero(hero);
+        updateEnemies(enemies);
+        updateHeroAttack(hero);
         updateAllies(allies);
         characters.repaint();
     }
@@ -153,6 +160,7 @@ public class SpringHeroView extends JFrame implements Constants {
             updateCharacters(hero, allies, enemies);
             hud.repaint();
         } else {
+            characters.remove(hero.getSprite());
             gameOver(level);
         }
     }

@@ -2,6 +2,7 @@ package springhero.models.npc;
 
 import springhero.models.hero.Hero;
 import springhero.models.main.Cell;
+import springhero.models.main.Map;
 
 import javax.swing.ImageIcon;
 
@@ -18,7 +19,7 @@ public class Ally extends NPC {
         this.rightImg = new ImageIcon(ALLIES_SRC + "ally-d.png");
         this.setTarget(hero.getPosition());
         this.updateSprite(cell);
-        this.setVisible(true); // TODO : setVisible(false)
+        this.setVisible(false);
         hero.attachObserver(this);
     }
 
@@ -28,7 +29,7 @@ public class Ally extends NPC {
 
     public void setVisible(boolean visible) {
         this.visible = visible;
-        this.sprite.setVisible(visible);
+        getSprite().setVisible(visible);
     }
 
     public boolean isRescued() {
@@ -37,5 +38,28 @@ public class Ally extends NPC {
 
     public void setRescued(boolean rescued) {
         this.rescued = rescued;
+        if (rescued) {
+            setVisible(false);
+        }
+    }
+
+    public void checkStatus(Map map, Hero hero) {
+        if (isRescued()) {
+            map.getCell(this.position).resetEntity();
+            hero.setHealth(NPCType.ALLY);
+        }
+    }
+
+    @Override
+    protected void updateStatus() {
+        if (getPosition().x == getTarget().x && getPosition().y == getTarget().y) {
+            setRescued(true);
+        } else {
+            if ((Math.abs(getPosition().x - getTarget().x) < ALLY_RANGE) && (Math.abs(getPosition().y - getTarget().y) < ALLY_RANGE)) {
+                setVisible(true);
+            } else {
+                setVisible(false);
+            }
+        }
     }
 }

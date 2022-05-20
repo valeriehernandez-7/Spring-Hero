@@ -33,24 +33,41 @@ public class Enemy extends NPC {
         }
     }
 
-    public void move(Map map) {
-        if (!this.available) {
+    private void attack(Hero hero) {
+        hero.setHealth(NPCType.ENEMY);
+    }
+
+    public void step(Map map, Cell cell, Point position) {
+        if (map.isCell(position)) {
+            if (!map.getCell(position).getEntity().equals("Enemy")) {
+                updateSprite(map.getCell(position));
+                cell.resetEntity();
+            }
+        }
+    }
+
+    public void move(Map map, Hero hero) {
+        if (!isDefeated()) {
             Cell currentCell = map.getCell(this.position);
             Point nextPosition = new Point();
-            // TODO : check if next position is available
+            boolean isTargetRow = true;
             if (this.position.x != this.target.x) {
+                isTargetRow = false;
                 nextPosition.x = this.position.x + ((this.target.x - this.position.x) / Math.abs(this.target.x - this.position.x));
+                step(map, currentCell, new Point(nextPosition.x, this.position.y));
             }
-            if (this.position.y != this.target.y) {
+            if (this.position.y != this.target.y && isTargetRow) {
                 nextPosition.y = this.position.y + ((this.target.y - this.position.y) / Math.abs(this.target.y - this.position.y));
-            }
-            if (map.isCell(nextPosition)) {
-                if (!map.getCell(nextPosition).getEntity().equals("Enemy")) {
-                    updateSprite(map.getCell(nextPosition));
-                    currentCell.resetEntity();
-                }
+                step(map, currentCell, new Point(this.position.x, nextPosition.y));
             }
         } else {
+            attack(hero);
+        }
+    }
+
+    @Override
+    protected void updateStatus() {
+        if (getPosition().x == getTarget().x && getPosition().y == getTarget().y) {
             setDefeated(true);
         }
     }

@@ -5,6 +5,7 @@ import springhero.models.main.Cell;
 import springhero.models.main.Constants;
 
 public class NPCFactory implements Constants {
+
     public NPC getNPC(NPCType type, Cell cell, Hero hero) {
         NPC npc = null;
         switch (type) {

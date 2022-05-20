@@ -56,49 +56,27 @@ public class SpringHeroController implements Constants, KeyListener {
         return springHero.getMap();
     }
 
-    public void setSpringHeroMap(Map map) {
-        this.springHero.setMap(map);
-    }
-
     public Hero getSpringHeroHero() {
         return springHero.getHero();
-    }
-
-    public void setSpringHeroHero(Hero hero) {
-        this.springHero.setHero(hero);
     }
 
     public NPCFactory getSpringHeroNpcFactory() {
         return springHero.getNpcFactory();
     }
 
-    public void setSpringHeroNpcFactory(NPCFactory npcFactory) {
-        this.springHero.setNpcFactory(npcFactory);
-    }
-
     public List<Ally> getSpringHeroAllies() {
         return springHero.getAllies();
-    }
-
-    public void setSpringHeroAllies(List<Ally> allies) {
-        this.springHero.setAllies(allies);
     }
 
     public List<Enemy> getSpringHeroEnemies() {
         return springHero.getEnemies();
     }
 
-    public void setSpringHeroEnemies(List<Enemy> enemies) {
-        this.springHero.setEnemies(enemies);
-    }
+    @Override
+    public void keyTyped(KeyEvent keyEvent) {}
 
     @Override
-    public void keyTyped(KeyEvent keyEvent) {
-    }
-
-    @Override
-    public void keyReleased(KeyEvent keyEvent) {
-    }
+    public void keyReleased(KeyEvent keyEvent) {}
 
     @Override
     public void keyPressed(KeyEvent keyEvent) {
@@ -171,11 +149,11 @@ public class SpringHeroController implements Constants, KeyListener {
     }
 
     private void removeRescuedAllies() {
-        updateSpringHeroView();
-        getSpringHeroAllies().removeIf(ally -> ally.isRescued());
+        getSpringHeroAllies().removeIf(Ally::isRescued);
         if (getSpringHeroAllies().isEmpty() && (getSpringHeroLevel() % 3 == 0)) {
             allyGenerator(ALLIES_MAX_AMOUNT);
         }
+        updateSpringHeroView();
     }
 
     private void moveEnemies() {
@@ -187,7 +165,7 @@ public class SpringHeroController implements Constants, KeyListener {
     }
 
     private void removeDefeatedEnemies() {
-        getSpringHeroEnemies().removeIf(enemy -> enemy.isDefeated());
+        getSpringHeroEnemies().removeIf(Enemy::isDefeated);
         if (getSpringHeroEnemies().isEmpty()) {
             setSpringHeroLevel(getSpringHeroLevel() + 1);
             enemyGenerator(ENEMIES_MAX_AMOUNT);

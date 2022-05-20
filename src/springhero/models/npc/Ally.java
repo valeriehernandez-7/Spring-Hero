@@ -8,7 +8,6 @@ import javax.swing.ImageIcon;
 
 public class Ally extends NPC {
 
-    private boolean visible;
     private boolean rescued;
 
     public Ally(Cell cell, Hero hero) {
@@ -23,12 +22,7 @@ public class Ally extends NPC {
         hero.attachObserver(this);
     }
 
-    public boolean isVisible() {
-        return visible;
-    }
-
     public void setVisible(boolean visible) {
-        this.visible = visible;
         getSprite().setVisible(visible);
     }
 
@@ -55,11 +49,7 @@ public class Ally extends NPC {
         if (getPosition().x == getTarget().x && getPosition().y == getTarget().y) {
             setRescued(true);
         } else {
-            if ((Math.abs(getPosition().x - getTarget().x) < ALLY_RANGE) && (Math.abs(getPosition().y - getTarget().y) < ALLY_RANGE)) {
-                setVisible(true);
-            } else {
-                setVisible(false);
-            }
+            setVisible((Math.abs(getPosition().x - getTarget().x) < ALLY_RANGE) && (Math.abs(getPosition().y - getTarget().y) < ALLY_RANGE));
         }
     }
 }

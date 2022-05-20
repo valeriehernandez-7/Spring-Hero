@@ -18,11 +18,11 @@ public class SpringHero implements Constants {
     private screens screenview;
     private boolean gameOver;
     private int level;
-    private Map map;
-    private Hero hero;
-    private NPCFactory npcFactory;
-    private List<Ally> allies;
-    private List<Enemy> enemies;
+    private final Map map;
+    private final Hero hero;
+    private final NPCFactory npcFactory;
+    private final List<Ally> allies;
+    private final List<Enemy> enemies;
 
     public SpringHero() {
         this.screenview = screens.WELCOME;
@@ -63,39 +63,19 @@ public class SpringHero implements Constants {
         return map;
     }
 
-    public void setMap(Map map) {
-        this.map = map;
-    }
-
     public Hero getHero() {
         return hero;
-    }
-
-    public void setHero(Hero hero) {
-        this.hero = hero;
     }
 
     public NPCFactory getNpcFactory() {
         return npcFactory;
     }
 
-    public void setNpcFactory(NPCFactory npcFactory) {
-        this.npcFactory = npcFactory;
-    }
-
     public List<Ally> getAllies() {
         return allies;
     }
 
-    public void setAllies(List<Ally> allies) {
-        this.allies = allies;
-    }
-
     public List<Enemy> getEnemies() {
         return enemies;
-    }
-
-    public void setEnemies(List<Enemy> enemies) {
-        this.enemies = enemies;
     }
 }

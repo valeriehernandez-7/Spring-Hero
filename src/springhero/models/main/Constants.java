@@ -31,7 +31,7 @@ public interface Constants {
     int MAP_GRID_COLS = 19;
     int CELL_HEIGHT = (WINDOW_HEIGHT - MAP_YPOS) / MAP_GRID_ROWS;
     int CELL_WIDTH = (WINDOW_WIDTH - MAP_XPOS) / MAP_GRID_COLS;
-    Point MAP_GRID_CENTER = new Point((int)(Math.floor((MAP_GRID_ROWS) / 2)), (int)(Math.floor((MAP_GRID_COLS) / 2)));
+    Point MAP_GRID_CENTER = new Point((int) (Math.floor((MAP_GRID_ROWS) / 2)), (int) (Math.floor((MAP_GRID_COLS) / 2)));
 
     // enums
     enum screens {

@@ -14,16 +14,8 @@ public class Map implements Constants {
         update();
     }
 
-    public Cell[][] getGrid() {
-        return grid;
-    }
-
     public Cell getCell(Point ID) {
         return grid[ID.x][ID.y];
-    }
-
-    public Cell getCell(int row, int column) {
-        return grid[row][column];
     }
 
     public boolean isCell(Point cellID) {
@@ -80,7 +72,7 @@ public class Map implements Constants {
 
     public Cell findEmptyCell() {
         Cell emptyCell = null;
-        while(emptyCell == null) {
+        while (emptyCell == null) {
             Point emptyCellID = new Point();
             emptyCellID.x = getRandomInteger(0, MAP_GRID_ROWS);
             emptyCellID.y = getRandomInteger(0, MAP_GRID_COLS);

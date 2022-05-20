@@ -27,7 +27,7 @@ public class SpringHeroView extends JFrame implements Constants {
     private final ImageIcon WELCOME_BKG_IMG = new ImageIcon(BACKGROUNDS_SRC + "welcome.png");
     private final ImageIcon CONTROLS_BKG_IMG = new ImageIcon(BACKGROUNDS_SRC + "controls.png");
     private final ImageIcon GAME_BKG_IMG = new ImageIcon(BACKGROUNDS_SRC + "game.png");
-    private JLabel backgroundLbl = labelSetup(WELCOME_BKG_IMG, 0, 0, true);
+    private final JLabel backgroundLbl = labelSetup(WELCOME_BKG_IMG, 0, 0, true);
     private JProgressBar heroHealthBar, alliesRescuedBar, enemiesDestroyedBar;
     private JPanel hud, characters, background;
 
@@ -72,9 +72,7 @@ public class SpringHeroView extends JFrame implements Constants {
                 hud.setVisible(false);
                 characters.setVisible(false);
             }
-            case CONTROLS -> {
-                backgroundImg = CONTROLS_BKG_IMG;
-            }
+            case CONTROLS -> backgroundImg = CONTROLS_BKG_IMG;
             case GAME -> {
                 backgroundImg = GAME_BKG_IMG;
                 hud.setVisible(true);
@@ -113,7 +111,8 @@ public class SpringHeroView extends JFrame implements Constants {
     }
 
     private void gameOver(int level) {
-        int input = JOptionPane.showConfirmDialog(this, "LEVEL: " + level + "\nDo you want to play another Spring Hero?",
+        int input = JOptionPane.showConfirmDialog(this,
+                "LEVEL: " + level + "\nDo you want to play another round of Spring Hero?",
                 "Spring Hero", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, ICON_IMG);
         dispose();
         if (input == JOptionPane.YES_OPTION) {

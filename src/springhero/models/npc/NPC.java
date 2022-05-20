@@ -42,14 +42,14 @@ public abstract class NPC implements Constants, PropertyChangeListener {
         view newView = this.view;
         if ((this.target.x != newPosition.x) || (this.target.y != newPosition.y)) {
             if (this.target.x < newPosition.x) {
-                newView = view.UP;
+                newView = Constants.view.UP;
             } else if (this.target.x > newPosition.x) {
-                newView = view.DOWN;
+                newView = Constants.view.DOWN;
             }
             if (this.target.y < newPosition.y) {
-                newView = view.LEFT;
+                newView = Constants.view.LEFT;
             } else if (this.target.y > newPosition.y) {
-                newView = view.RIGHT;
+                newView = Constants.view.RIGHT;
             }
         }
         this.view = newView;
@@ -76,7 +76,7 @@ public abstract class NPC implements Constants, PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent changeEvent) {
-        setTarget((Point)changeEvent.getNewValue());
+        setTarget((Point) changeEvent.getNewValue());
         updateStatus();
     }
 

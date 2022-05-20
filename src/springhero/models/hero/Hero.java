@@ -3,7 +3,6 @@ package springhero.models.hero;
 import springhero.models.main.Cell;
 import springhero.models.main.Constants;
 import springhero.models.main.Map;
-import springhero.models.npc.Ally;
 import springhero.models.npc.Enemy;
 import springhero.models.observer.Observable;
 
@@ -18,13 +17,13 @@ import java.util.List;
 
 public class Hero implements Constants, Observable {
 
-    private JLabel sprite = new JLabel();
+    private final JLabel sprite = new JLabel();
     private Point position;
     private int health;
     private AttackObject rock;
     private final ImageIcon upImg, downImg, leftImg, rightImg;
     private view view = Constants.view.RIGHT;
-    private PropertyChangeSupport observerManager = new PropertyChangeSupport(this);
+    private final PropertyChangeSupport observerManager = new PropertyChangeSupport(this);
 
     public Hero(Cell cell) {
         this.health = HERO_MAX_HEALTH;
@@ -72,10 +71,6 @@ public class Hero implements Constants, Observable {
         return health;
     }
 
-    public void setHealth(int health) {
-        this.health = health;
-    }
-
     public void setHealth(NPCType npc) {
         switch (npc) {
             case ALLY -> {
@@ -93,10 +88,6 @@ public class Hero implements Constants, Observable {
 
     public AttackObject getRock() {
         return rock;
-    }
-
-    public void setRock(AttackObject rock) {
-        this.rock = rock;
     }
 
     public boolean move(view direction, Map map) {
@@ -118,15 +109,6 @@ public class Hero implements Constants, Observable {
         return false;
     }
 
-    public void rescue(List<Ally> allies) {
-        for (Ally ally: allies) {
-            if (ally.getPosition().equals(getPosition())) {
-                ally.setRescued(true);
-                break;
-            }
-        }
-    }
-
     public boolean attack(List<Enemy> enemies) {
         Point enemyPosition = null;
         switch (this.view) {
@@ -137,7 +119,7 @@ public class Hero implements Constants, Observable {
         }
         if (enemyPosition != null) {
             Enemy enemyToAttack = null;
-            for (Enemy enemy: enemies) {
+            for (Enemy enemy : enemies) {
                 if (enemy.getPosition().equals(enemyPosition)) {
                     enemyToAttack = enemy;
                 }

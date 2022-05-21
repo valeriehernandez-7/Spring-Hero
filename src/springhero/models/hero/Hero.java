@@ -32,7 +32,7 @@ public class Hero implements Constants, Observable {
         this.rightImg = new ImageIcon(HERO_SRC + "hero-d.png");
         this.upAttackImg = new ImageIcon(HERO_SRC + "hero-wAttack.png");
         this.downAttackImg = new ImageIcon(HERO_SRC + "hero-sAttack.png");
-        this.leftAttackImg = new ImageIcon(HERO_SRC + "hero-a.png");
+        this.leftAttackImg = new ImageIcon(HERO_SRC + "hero-aAttack.png");
         this.rightAttackImg = new ImageIcon(HERO_SRC + "hero-dAttack.png");
         this.updateSprite(this.view, cell);
     }

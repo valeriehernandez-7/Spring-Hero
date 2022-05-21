@@ -44,7 +44,7 @@ public interface Constants {
         UP,
         DOWN,
         LEFT,
-        RIGHT
+        RIGHT,
     }
 
     enum NPCType {

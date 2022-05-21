@@ -9,6 +9,9 @@ import springhero.models.npc.Enemy;
 import springhero.models.npc.NPCFactory;
 import springhero.views.main.SpringHeroView;
 
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.List;
@@ -22,6 +25,7 @@ public class SpringHeroController implements Constants, KeyListener {
 
     private final SpringHero springHero;
     private final SpringHeroView springHeroView;
+    private view oldMovement;
 
     public SpringHeroController() {
         this.springHero = new SpringHero();
@@ -84,19 +88,30 @@ public class SpringHeroController implements Constants, KeyListener {
         if (getSpringHeroScreenview() == screens.GAME) {
             boolean heroStateChanged = false;
             if (key == KeyEvent.VK_W) {
+                oldMovement = view.UP;
                 heroStateChanged = getSpringHeroHero().move(view.UP, getSpringHeroMap());
             }
             if (key == KeyEvent.VK_S) {
+                oldMovement = view.DOWN;
                 heroStateChanged = getSpringHeroHero().move(view.DOWN, getSpringHeroMap());
             }
             if (key == KeyEvent.VK_A) {
+                oldMovement = view.LEFT;
                 heroStateChanged = getSpringHeroHero().move(view.LEFT, getSpringHeroMap());
             }
             if (key == KeyEvent.VK_D) {
+                oldMovement = view.RIGHT;
                 heroStateChanged = getSpringHeroHero().move(view.RIGHT, getSpringHeroMap());
             }
-            if (key == KeyEvent.VK_F) {
-                heroStateChanged = getSpringHeroHero().attack(getSpringHeroEnemies());
+            if (key == KeyEvent.VK_F && oldMovement!=null) {
+                heroStateChanged = getSpringHeroHero().attackSprite( getSpringHeroMap(), oldMovement, getSpringHeroEnemies());
+                new Timer(200,new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        getSpringHeroHero().updateSprite(oldMovement,getSpringHeroMap().getCell(getSpringHeroHero().getPosition()));
+                        ((Timer)e.getSource()).stop();
+                    }
+                }).start();
+
             }
             if (heroStateChanged) {
                 play();

@@ -20,8 +20,7 @@ public class Hero implements Constants, Observable {
     private final JLabel sprite = new JLabel();
     private Point position;
     private int health;
-    private AttackObject rock;
-    private final ImageIcon upImg, downImg, leftImg, rightImg;
+    private final ImageIcon upImg, downImg, leftImg, rightImg, upAttackImg, downAttackImg, leftAttackImg, rightAttackImg;
     private view view = Constants.view.RIGHT;
     private final PropertyChangeSupport observerManager = new PropertyChangeSupport(this);
 
@@ -31,6 +30,10 @@ public class Hero implements Constants, Observable {
         this.downImg = new ImageIcon(HERO_SRC + "hero-s.png");
         this.leftImg = new ImageIcon(HERO_SRC + "hero-a.png");
         this.rightImg = new ImageIcon(HERO_SRC + "hero-d.png");
+        this.upAttackImg = new ImageIcon(HERO_SRC + "hero-wAttack.png");
+        this.downAttackImg = new ImageIcon(HERO_SRC + "hero-sAttack.png");
+        this.leftAttackImg = new ImageIcon(HERO_SRC + "hero-a.png");
+        this.rightAttackImg = new ImageIcon(HERO_SRC + "hero-dAttack.png");
         this.updateSprite(this.view, cell);
     }
 
@@ -38,7 +41,7 @@ public class Hero implements Constants, Observable {
         return sprite;
     }
 
-    private void updateSprite(view view, Cell cell) {
+    public void updateSprite(view view, Cell cell) {
         ImageIcon icon = new ImageIcon();
         switch (view) {
             case UP -> icon = this.upImg;
@@ -52,6 +55,7 @@ public class Hero implements Constants, Observable {
             this.sprite.setBounds(new Rectangle(this.sprite.getIcon().getIconWidth(), this.sprite.getIcon().getIconHeight()));
             this.setPosition(cell);
         }
+
     }
 
     public Point getPosition() {
@@ -85,9 +89,46 @@ public class Hero implements Constants, Observable {
             }
         }
     }
+    public boolean attackSprite(Map map,view direction, List<Enemy> enemyList){
+        ImageIcon icon = new ImageIcon();
+        Point detectAttack = new Point(0,0);
 
-    public AttackObject getRock() {
-        return rock;
+        switch (direction) {
+            case UP -> {
+                icon = this.upAttackImg;
+                detectAttack = new Point (this.position.x-1,this.position.y);
+            }
+            case DOWN -> {
+                icon = this.downAttackImg;
+                detectAttack = new Point (this.position.x+1,this.position.y);
+            }
+            case LEFT -> {
+                icon = this.leftAttackImg;
+                detectAttack = new Point (this.position.x,this.position.y-1);
+            }
+            case RIGHT -> {
+                icon = this.rightAttackImg;
+                detectAttack = new Point (this.position.x,this.position.y+1);
+            }
+        }
+        if (icon.getImage() != null) {
+            this.sprite.setIcon(icon);
+            this.sprite.setBounds(new Rectangle(this.sprite.getIcon().getIconWidth(), this.sprite.getIcon().getIconHeight()));
+            setPosition(map.getCell(this.position));
+
+        }
+        for(Enemy enemy: enemyList){
+            System.out.println(" Enemy: " + enemy.getPosition() + " Hero: " + detectAttack);
+            if(enemy.getPosition().equals(detectAttack)){
+                System.out.println();
+                enemy.setDefeated(true);
+                return true;
+            }
+
+        } return false;
+
+
+
     }
 
     public boolean move(view direction, Map map) {
@@ -109,30 +150,8 @@ public class Hero implements Constants, Observable {
         return false;
     }
 
-    public boolean attack(List<Enemy> enemies) {
-        Point enemyPosition = null;
-        switch (this.view) {
-            case UP -> enemyPosition = new Point(this.position.x - 1, this.position.y);
-            case DOWN -> enemyPosition = new Point(this.position.x + 1, this.position.y);
-            case LEFT -> enemyPosition = new Point(this.position.x, this.position.y - 1);
-            case RIGHT -> enemyPosition = new Point(this.position.x, this.position.y + 1);
-        }
-        if (enemyPosition != null) {
-            Enemy enemyToAttack = null;
-            for (Enemy enemy : enemies) {
-                if (enemy.getPosition().equals(enemyPosition)) {
-                    enemyToAttack = enemy;
-                }
-            }
-            if (enemyToAttack != null) {
-                this.rock = new AttackObject(this);
-                this.rock.move(enemyToAttack);
-                enemyToAttack.setDefeated(true);
-                return true;
-            }
-        }
-        return false;
-    }
+
+
 
     public void attachObserver(PropertyChangeListener newObserver) {
         observerManager.addPropertyChangeListener(newObserver);

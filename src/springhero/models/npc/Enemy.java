@@ -45,23 +45,39 @@ public class Enemy extends NPC {
             }
         }
     }
-
+    
     public void move(Map map, Hero hero) {
         if (!isDefeated()) {
             Cell currentCell = map.getCell(this.position);
             Point nextPosition = new Point();
             boolean isTargetRow = true;
-            if (this.position.x != this.target.x) {
-                isTargetRow = false;
-                nextPosition.x = this.position.x + ((this.target.x - this.position.x) / Math.abs(this.target.x - this.position.x));
-                step(map, currentCell, new Point(nextPosition.x, this.position.y));
+            if((this.position.x != this.target.x)&&(this.position.y != this.target.y)){
+                int random_int = (int)Math.floor(Math.random()*(2-1+1)+1);
+                switch (random_int) {
+                    case 1 -> {
+                        nextPosition.x = this.position.x + ((this.target.x - this.position.x) / Math.abs(this.target.x - this.position.x));
+                        step(map, currentCell, new Point(nextPosition.x, this.position.y));
+                    }
+                    case 2 -> {
+                        nextPosition.y = this.position.y + ((this.target.y - this.position.y) / Math.abs(this.target.y - this.position.y));
+                        step(map, currentCell, new Point(this.position.x, nextPosition.y));
+                    }
+                }
             }
-            if (this.position.y != this.target.y && isTargetRow) {
-                nextPosition.y = this.position.y + ((this.target.y - this.position.y) / Math.abs(this.target.y - this.position.y));
-                step(map, currentCell, new Point(this.position.x, nextPosition.y));
+            else if((this.position.x != this.target.x)||(this.position.y != this.target.y)) {
+
+                if (this.position.x != this.target.x) {
+                    isTargetRow = false;
+                    nextPosition.x = this.position.x + ((this.target.x - this.position.x) / Math.abs(this.target.x - this.position.x));
+                    step(map, currentCell, new Point(nextPosition.x, this.position.y));
+                }
+                if (this.position.y != this.target.y && isTargetRow) {
+                    nextPosition.y = this.position.y + ((this.target.y - this.position.y) / Math.abs(this.target.y - this.position.y));
+                    step(map, currentCell, new Point(this.position.x, nextPosition.y));
+                }
+            } else {
+                attack(hero);
             }
-        } else {
-            attack(hero);
         }
     }
 

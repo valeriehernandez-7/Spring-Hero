@@ -31,7 +31,6 @@ public class SpringHeroView extends JFrame implements Constants {
     private JProgressBar heroHealthBar, alliesRescuedBar, enemiesDestroyedBar;
     private JPanel hud, characters, background;
 
-
     public SpringHeroView(KeyListener keyListener) {
         setIconImage(ICON_IMG.getImage());
         setTitle("Spring Hero");
@@ -125,12 +124,6 @@ public class SpringHeroView extends JFrame implements Constants {
         characters.add(hero.getSprite());
         heroHealthBar.setValue(hero.getHealth());
     }
-//
-//    private void updateHeroAttack(Hero hero) {
-//        if (hero.getRock() != null) {
-//            characters.add(hero.getRock().getSprite());
-//        }
-//    }
 
     private void updateAllies(List<Ally> allies) {
         for (Ally ally : allies) {
@@ -150,7 +143,6 @@ public class SpringHeroView extends JFrame implements Constants {
         characters.removeAll();
         updateHero(hero);
         updateEnemies(enemies);
-        //updateHeroAttack(hero);
         updateAllies(allies);
         characters.repaint();
     }

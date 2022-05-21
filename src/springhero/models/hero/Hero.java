@@ -89,46 +89,40 @@ public class Hero implements Constants, Observable {
             }
         }
     }
-    public boolean attackSprite(Map map,view direction, List<Enemy> enemyList){
-        ImageIcon icon = new ImageIcon();
-        Point detectAttack = new Point(0,0);
 
+    public boolean attack(Map map, view direction, List<Enemy> enemyList) {
+        ImageIcon icon = new ImageIcon();
+        Point detectAttack = new Point(0, 0);
         switch (direction) {
             case UP -> {
                 icon = this.upAttackImg;
-                detectAttack = new Point (this.position.x-1,this.position.y);
+                detectAttack = new Point(this.position.x - 1, this.position.y);
             }
             case DOWN -> {
                 icon = this.downAttackImg;
-                detectAttack = new Point (this.position.x+1,this.position.y);
+                detectAttack = new Point(this.position.x + 1, this.position.y);
             }
             case LEFT -> {
                 icon = this.leftAttackImg;
-                detectAttack = new Point (this.position.x,this.position.y-1);
+                detectAttack = new Point(this.position.x, this.position.y - 1);
             }
             case RIGHT -> {
                 icon = this.rightAttackImg;
-                detectAttack = new Point (this.position.x,this.position.y+1);
+                detectAttack = new Point(this.position.x, this.position.y + 1);
             }
         }
         if (icon.getImage() != null) {
             this.sprite.setIcon(icon);
             this.sprite.setBounds(new Rectangle(this.sprite.getIcon().getIconWidth(), this.sprite.getIcon().getIconHeight()));
             setPosition(map.getCell(this.position));
-
         }
-        for(Enemy enemy: enemyList){
-            System.out.println(" Enemy: " + enemy.getPosition() + " Hero: " + detectAttack);
-            if(enemy.getPosition().equals(detectAttack)){
-                System.out.println();
+        for (Enemy enemy : enemyList) {
+            if (enemy.getPosition().equals(detectAttack)) {
                 enemy.setDefeated(true);
                 return true;
             }
-
-        } return false;
-
-
-
+        }
+        return false;
     }
 
     public boolean move(view direction, Map map) {
@@ -149,9 +143,6 @@ public class Hero implements Constants, Observable {
         }
         return false;
     }
-
-
-
 
     public void attachObserver(PropertyChangeListener newObserver) {
         observerManager.addPropertyChangeListener(newObserver);

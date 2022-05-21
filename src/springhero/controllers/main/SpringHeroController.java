@@ -103,15 +103,14 @@ public class SpringHeroController implements Constants, KeyListener {
                 oldMovement = view.RIGHT;
                 heroStateChanged = getSpringHeroHero().move(view.RIGHT, getSpringHeroMap());
             }
-            if (key == KeyEvent.VK_F && oldMovement!=null) {
-                heroStateChanged = getSpringHeroHero().attackSprite( getSpringHeroMap(), oldMovement, getSpringHeroEnemies());
-                new Timer(200,new ActionListener() {
+            if (key == KeyEvent.VK_F && oldMovement != null) {
+                heroStateChanged = getSpringHeroHero().attack(getSpringHeroMap(), oldMovement, getSpringHeroEnemies());
+                new Timer(200, new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
-                        getSpringHeroHero().updateSprite(oldMovement,getSpringHeroMap().getCell(getSpringHeroHero().getPosition()));
-                        ((Timer)e.getSource()).stop();
+                        getSpringHeroHero().updateSprite(oldMovement, getSpringHeroMap().getCell(getSpringHeroHero().getPosition()));
+                        ((Timer) e.getSource()).stop();
                     }
                 }).start();
-
             }
             if (heroStateChanged) {
                 play();

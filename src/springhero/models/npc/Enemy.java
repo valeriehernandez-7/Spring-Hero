@@ -45,14 +45,14 @@ public class Enemy extends NPC {
             }
         }
     }
-    
+
     public void move(Map map, Hero hero) {
         if (!isDefeated()) {
             Cell currentCell = map.getCell(this.position);
             Point nextPosition = new Point();
             boolean isTargetRow = true;
-            if((this.position.x != this.target.x)&&(this.position.y != this.target.y)){
-                int random_int = (int)Math.floor(Math.random()*(2-1+1)+1);
+            if ((this.position.x != this.target.x) && (this.position.y != this.target.y)) {
+                int random_int = (int) Math.floor(Math.random() * (2 - 1 + 1) + 1);
                 switch (random_int) {
                     case 1 -> {
                         nextPosition.x = this.position.x + ((this.target.x - this.position.x) / Math.abs(this.target.x - this.position.x));
@@ -63,9 +63,7 @@ public class Enemy extends NPC {
                         step(map, currentCell, new Point(this.position.x, nextPosition.y));
                     }
                 }
-            }
-            else if((this.position.x != this.target.x)||(this.position.y != this.target.y)) {
-
+            } else if ((this.position.x != this.target.x) || (this.position.y != this.target.y)) {
                 if (this.position.x != this.target.x) {
                     isTargetRow = false;
                     nextPosition.x = this.position.x + ((this.target.x - this.position.x) / Math.abs(this.target.x - this.position.x));

@@ -12,8 +12,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.ImageIcon;
+import javax.swing.Timer;
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.event.KeyListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -26,14 +31,19 @@ public class SpringHeroView extends JFrame implements Constants {
     private final ImageIcon ICON_IMG = new ImageIcon(RESOURCES_SRC + "logo/icon.png");
     private final ImageIcon WELCOME_BKG_IMG = new ImageIcon(BACKGROUNDS_SRC + "welcome.png");
     private final ImageIcon CONTROLS_BKG_IMG = new ImageIcon(BACKGROUNDS_SRC + "controls.png");
+    private final ImageIcon LEVEL_BKG_IMG = new ImageIcon(BACKGROUNDS_SRC + "level.png");
     private final ImageIcon GAME_BKG_IMG = new ImageIcon(BACKGROUNDS_SRC + "game.png");
     private final JLabel backgroundLbl = labelSetup(WELCOME_BKG_IMG, 0, 0, true);
+    private final JLabel levelBkgLbl = labelSetup(LEVEL_BKG_IMG, 0, 0, true);
     private JProgressBar heroHealthBar, alliesRescuedBar, enemiesDestroyedBar;
-    private JPanel hud, characters, background;
+    private JPanel hud, info, characters, background;
+    private JLabel levelLbl;
+    private Font fontSource, font;
+    private int level = 0;
 
     public SpringHeroView(KeyListener keyListener) {
         setIconImage(ICON_IMG.getImage());
-        setTitle("Spring Hero");
+        setTitle(GAME_NAME);
         setSize(WINDOW_WIDTH + 15, WINDOW_HEIGHT + 35);
         setResizable(false);
         setLocationRelativeTo(null);
@@ -45,6 +55,15 @@ public class SpringHeroView extends JFrame implements Constants {
     }
 
     private void getUiComponents() {
+        // fonts
+        setFontSource(100);
+        // info panel
+        info = jPanelSetup(false);
+        // level label
+        levelLbl = textLabelSetup(372, 225, 115, 85, LEVEL_TXT_COLOR, String.valueOf(level), true);
+        info.add(levelLbl);
+        info.add(levelBkgLbl);
+        getContentPane().add(info);
         // hud panel
         hud = jPanelSetup(false);
         heroHealthBar = progressBarSetup(0, HERO_MAX_HEALTH, 90, 40, HERO_HEALTH_BAR_COLOR);
@@ -62,6 +81,53 @@ public class SpringHeroView extends JFrame implements Constants {
         screenSetup(screens.WELCOME);
         background.add(backgroundLbl);
         getContentPane().add(background);
+    }
+
+    private JLabel labelSetup(ImageIcon source, int posX, int posY, boolean visible) {
+        JLabel label = new JLabel(source);
+        label.setBounds(posX, posY, label.getIcon().getIconWidth(), label.getIcon().getIconHeight());
+        label.setVisible(visible);
+        return label;
+    }
+
+    private JLabel textLabelSetup(int posX, int posY, int width, int height, Color color, String text, boolean visible) {
+        JLabel textLabel = new JLabel();
+        textLabel.setBounds(posX, posY, width, height);
+        textLabel.setHorizontalAlignment(JLabel.CENTER);
+        textLabel.setVerticalAlignment(JLabel.CENTER);
+        textLabel.setFont(font);
+        textLabel.setForeground(color);
+        textLabel.setText(text);
+        textLabel.setVisible(visible);
+        return textLabel;
+    }
+
+    private JProgressBar progressBarSetup(int min, int max, int posX, int posY, Color color) {
+        JProgressBar progressBar = new JProgressBar(min, max);
+        progressBar.setBounds(posX, posY, 135, 32);
+        progressBar.setBackground(NO_COLOR);
+        progressBar.setForeground(color);
+        progressBar.setBorder(null);
+        progressBar.setBorderPainted(false);
+        progressBar.setValue(progressBar.getMaximum());
+        return progressBar;
+    }
+
+    private JPanel jPanelSetup(boolean visible) {
+        JPanel jPanel = new JPanel(null);
+        jPanel.setOpaque(false);
+        jPanel.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+        jPanel.setVisible(visible);
+        return jPanel;
+    }
+
+    private void setFontSource(int size) {
+        try {
+            fontSource = Font.createFont(Font.TRUETYPE_FONT, new File(FONTS_SRC + "SunFlower.ttf"));
+            font = fontSource.deriveFont(Font.PLAIN, size);
+        } catch (IOException | FontFormatException exception) {
+            exception.printStackTrace();
+        }
     }
 
     public void screenSetup(screens screenName) {
@@ -84,40 +150,24 @@ public class SpringHeroView extends JFrame implements Constants {
         }
     }
 
-    private JLabel labelSetup(ImageIcon source, int posX, int posY, boolean visible) {
-        JLabel label = new JLabel(source);
-        label.setBounds(posX, posY, label.getIcon().getIconWidth(), label.getIcon().getIconHeight());
-        label.setVisible(visible);
-        return label;
-    }
-
-    private JProgressBar progressBarSetup(int min, int max, int posX, int posY, Color color) {
-        JProgressBar progressBar = new JProgressBar(min, max);
-        progressBar.setBounds(posX, posY, 135, 32);
-        progressBar.setBackground(NO_COLOR);
-        progressBar.setForeground(color);
-        progressBar.setBorder(null);
-        progressBar.setBorderPainted(false);
-        progressBar.setValue(progressBar.getMaximum());
-        return progressBar;
-    }
-
-    private JPanel jPanelSetup(boolean visible) {
-        JPanel jPanel = new JPanel(null);
-        jPanel.setOpaque(false);
-        jPanel.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
-        jPanel.setVisible(visible);
-        return jPanel;
-    }
-
-    private void gameOver(int level) {
+    private void gameOver() {
         int input = JOptionPane.showConfirmDialog(this,
-                "LEVEL: " + level + "\nDo you want to play another round of Spring Hero?",
-                "Spring Hero", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, ICON_IMG);
+                "GAME OVER\nDo you want to play another round of " + GAME_NAME + "?",
+                GAME_NAME, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, ICON_IMG);
         dispose();
         if (input == JOptionPane.YES_OPTION) {
             new SpringHeroController();
         }
+    }
+
+    private void updateLevel(int level) {
+        this.level = level;
+        info.setVisible(true);
+        levelLbl.setText(String.valueOf(this.level));
+        new Timer(1500, e -> {
+            info.setVisible(false);
+            ((Timer) e.getSource()).stop();
+        }).start();
     }
 
     private void updateHero(Hero hero) {
@@ -151,9 +201,12 @@ public class SpringHeroView extends JFrame implements Constants {
         if (!gameOver) {
             updateCharacters(hero, allies, enemies);
             hud.repaint();
+            if (level != this.level) {
+                updateLevel(level);
+            }
         } else {
             characters.remove(hero.getSprite());
-            gameOver(level);
+            gameOver();
         }
     }
 }

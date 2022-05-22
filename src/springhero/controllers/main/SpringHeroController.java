@@ -9,9 +9,7 @@ import springhero.models.npc.Enemy;
 import springhero.models.npc.NPCFactory;
 import springhero.views.main.SpringHeroView;
 
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import javax.swing.Timer;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.List;
@@ -105,11 +103,9 @@ public class SpringHeroController implements Constants, KeyListener {
             }
             if (key == KeyEvent.VK_F && oldMovement != null) {
                 heroStateChanged = getSpringHeroHero().attack(getSpringHeroMap(), oldMovement, getSpringHeroEnemies());
-                new Timer(200, new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        getSpringHeroHero().updateSprite(oldMovement, getSpringHeroMap().getCell(getSpringHeroHero().getPosition()));
-                        ((Timer) e.getSource()).stop();
-                    }
+                new Timer(200, e -> {
+                    getSpringHeroHero().updateSprite(oldMovement, getSpringHeroMap().getCell(getSpringHeroHero().getPosition()));
+                    ((Timer) e.getSource()).stop();
                 }).start();
             }
             if (heroStateChanged) {
@@ -162,11 +158,15 @@ public class SpringHeroController implements Constants, KeyListener {
         removeRescuedAllies();
     }
 
-    private void removeRescuedAllies() {
-        getSpringHeroAllies().removeIf(Ally::isRescued);
-        if (getSpringHeroAllies().isEmpty() && (getSpringHeroLevel() % 3 == 0)) {
+    private void checkAllies() {
+        if (getSpringHeroAllies().isEmpty() && (getSpringHeroLevel() % ALLY_GENERATOR_SIGNAL == 0)) {
             allyGenerator(ALLIES_MAX_AMOUNT);
         }
+    }
+
+    private void removeRescuedAllies() {
+        getSpringHeroAllies().removeIf(Ally::isRescued);
+        checkAllies();
         updateSpringHeroView();
     }
 
@@ -180,11 +180,15 @@ public class SpringHeroController implements Constants, KeyListener {
 
     private void removeDefeatedEnemies() {
         getSpringHeroEnemies().removeIf(Enemy::isDefeated);
+        checkLevel();
+        updateSpringHeroView();
+    }
+
+    private void checkLevel() {
         if (getSpringHeroEnemies().isEmpty()) {
             setSpringHeroLevel(getSpringHeroLevel() + 1);
             enemyGenerator(ENEMIES_MAX_AMOUNT);
         }
-        updateSpringHeroView();
     }
 
     private void round() {

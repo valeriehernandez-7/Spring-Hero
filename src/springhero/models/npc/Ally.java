@@ -41,8 +41,7 @@ public class Ally extends NPC {
         if (isRescued()) {
             map.getCell(this.position).resetEntity();
             hero.setHealth(NPCType.ALLY);
-        }
-        else{
+        } else {
             this.updateSprite(map.getCell(this.position));
         }
     }
@@ -52,7 +51,6 @@ public class Ally extends NPC {
         if (getPosition().x == getTarget().x && getPosition().y == getTarget().y) {
             setRescued(true);
         } else {
-
             setVisible((Math.abs(getPosition().x - getTarget().x) < ALLY_RANGE) && (Math.abs(getPosition().y - getTarget().y) < ALLY_RANGE));
         }
     }

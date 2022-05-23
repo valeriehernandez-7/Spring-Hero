@@ -26,7 +26,7 @@ public class Ally extends NPC {
         hero.attachObserver(this);
     }
 
-    public void setVisible(boolean visible) {
+    private void setVisible(boolean visible) {
         getSprite().setVisible(visible);
     }
 
@@ -34,7 +34,7 @@ public class Ally extends NPC {
         return rescued;
     }
 
-    public void setRescued(boolean rescued) {
+    private void setRescued(boolean rescued) {
         this.rescued = rescued;
         if (rescued) {
             setVisible(false);

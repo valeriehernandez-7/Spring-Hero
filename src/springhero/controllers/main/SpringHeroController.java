@@ -103,7 +103,8 @@ public class SpringHeroController implements Constants, KeyListener {
                     ((Timer) e.getSource()).stop();
                 }).start();
             }
-            if (heroStateChanged) {
+            if (!gameOver() && heroStateChanged) {
+                updateSpringHeroView();
                 play();
             }
         } else if (getSpringHeroScreenview() == screens.CONTROLS) {
@@ -137,12 +138,6 @@ public class SpringHeroController implements Constants, KeyListener {
             Enemy enemy = (Enemy) getSpringHeroNpcFactory().getNPC(NPCType.ENEMY, getSpringHeroMap().findEmptyCell(), getSpringHeroHero());
             getSpringHeroEnemies().add(enemy);
         }
-    }
-
-    private void newGame() {
-        allyGenerator(ALLIES_MAX_AMOUNT);
-        enemyGenerator(ENEMIES_MAX_AMOUNT);
-        updateSpringHeroView();
     }
 
     private void updateAllies() {
@@ -189,26 +184,31 @@ public class SpringHeroController implements Constants, KeyListener {
         updateSpringHeroView();
     }
 
+    private void newGame() {
+        allyGenerator(ALLIES_MAX_AMOUNT);
+        enemyGenerator(ENEMIES_MIN_AMOUNT);
+        updateSpringHeroView();
+    }
+
     private void checkLevel() {
         if (getSpringHeroEnemies().isEmpty()) {
             setSpringHeroLevel(getSpringHeroLevel() + 1);
-            enemyGenerator(ENEMIES_MAX_AMOUNT);
+            enemyGenerator(ENEMIES_MIN_AMOUNT + getSpringHeroLevel());
         }
+        updateSpringHeroView();
     }
 
-    private void round() {
-        updateSpringHeroView();
+    private boolean gameOver() {
         if (getSpringHeroHero().getHealth() == 0) {
             setSpringHeroGameOver(true);
+            updateSpringHeroView();
+            return true;
         }
-        if (!isSpringHeroGameOver()) {
-            moveEnemies();
-            updateAllies();
-        }
+        return false;
     }
 
     private void play() {
-        round();
-        updateSpringHeroView();
+        moveEnemies();
+        updateAllies();
     }
 }

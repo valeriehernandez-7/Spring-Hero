@@ -97,7 +97,7 @@ public class Hero implements Constants, Observable {
         }
     }
 
-    public boolean attack(Map map, List<Enemy> enemyList) {
+    public boolean attack(Map map, List<Enemy> enemies) {
         ImageIcon icon = new ImageIcon();
         Point enemyPosition = null;
         switch (this.view) {
@@ -124,7 +124,7 @@ public class Hero implements Constants, Observable {
                 this.sprite.setBounds(new Rectangle(this.sprite.getIcon().getIconWidth(), this.sprite.getIcon().getIconHeight()));
                 setPosition(map.getCell(this.position));
             }
-            for (Enemy enemy : enemyList) {
+            for (Enemy enemy : enemies) {
                 if (enemy.getPosition().equals(enemyPosition)) {
                     enemy.setDefeated(true);
                     return true;

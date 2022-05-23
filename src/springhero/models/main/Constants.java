@@ -30,7 +30,7 @@ public interface Constants {
     // calc
     int HERO_MAX_HEALTH = 15;
     int ALLIES_MAX_AMOUNT = HERO_MAX_HEALTH / 2;
-    int ENEMIES_MAX_AMOUNT = HERO_MAX_HEALTH / 3;
+    int ENEMIES_MIN_AMOUNT = HERO_MAX_HEALTH / 3;
     int ALLY_RANGE = 3;
     int ALLY_GENERATOR_SIGNAL = 3;
     int WINDOW_HEIGHT = 440;

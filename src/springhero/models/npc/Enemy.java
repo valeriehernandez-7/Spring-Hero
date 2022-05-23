@@ -34,16 +34,16 @@ public class Enemy extends NPC {
     public void setDefeated(boolean defeated) {
         this.defeated = defeated;
         if (defeated) {
-
             getSprite().setVisible(false);
         }
     }
 
     private void attack(Hero hero) {
+        setDefeated(true);
         hero.setHealth(NPCType.ENEMY);
     }
 
-    public void step(Map map, Cell cell, Point position) {
+    private void step(Map map, Cell cell, Point position) {
         if (map.isCell(position)) {
             if (!map.getCell(position).getEntity().equals("Enemy")) {
                 updateSprite(map.getCell(position));
@@ -74,8 +74,9 @@ public class Enemy extends NPC {
             } else if (this.position.y != this.target.y) {
                 nextPosition.y = this.position.y + ((this.target.y - this.position.y) / Math.abs(this.target.y - this.position.y));
                 step(map, currentCell, new Point(this.position.x, nextPosition.y));
-            } else {
-                attack(hero);
+            }
+            if ((this.position.x == this.target.x) && (this.position.y == this.target.y)) {
+                attack(hero); // enemy attacks hero
             }
         }
     }
@@ -83,7 +84,7 @@ public class Enemy extends NPC {
     @Override
     protected void updateStatus() {
         if (getPosition().x == getTarget().x && getPosition().y == getTarget().y) {
-            setDefeated(true);
+            setDefeated(true); // hero defeats enemy
         }
     }
 }

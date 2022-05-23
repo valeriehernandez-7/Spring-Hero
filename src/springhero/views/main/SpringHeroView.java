@@ -70,7 +70,7 @@ public class SpringHeroView extends JFrame implements Constants {
         hud.add(heroHealthBar);
         alliesRescuedBar = progressBarSetup(0, ALLIES_MAX_AMOUNT, 331, 40, ALLIES_RESCUED_BAR_COLOR);
         hud.add(alliesRescuedBar);
-        enemiesDestroyedBar = progressBarSetup(0, ENEMIES_MAX_AMOUNT, 572, 40, ENEMIES_DESTROYED_BAR_COLOR);
+        enemiesDestroyedBar = progressBarSetup(0, ENEMIES_MIN_AMOUNT, 572, 40, ENEMIES_DESTROYED_BAR_COLOR);
         hud.add(enemiesDestroyedBar);
         getContentPane().add(hud);
         // characters panel
@@ -164,6 +164,9 @@ public class SpringHeroView extends JFrame implements Constants {
         this.level = level;
         info.setVisible(true);
         levelLbl.setText(String.valueOf(this.level));
+        if (this.level > 1) {
+            enemiesDestroyedBar.setMaximum(ENEMIES_MIN_AMOUNT + this.level);
+        }
         new Timer(1500, e -> {
             info.setVisible(false);
             ((Timer) e.getSource()).stop();

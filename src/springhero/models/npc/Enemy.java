@@ -7,6 +7,11 @@ import springhero.models.main.Map;
 import javax.swing.ImageIcon;
 import java.awt.Point;
 
+/**
+ * Enemy model class.
+ * @author <a href="https://github.com/valeriehernandez-7">Valerie M. Hernández Fernández</a>
+ * @author <a href="https://github.com/Mariana612">Mariana Navarro Jiménez</a>
+ */
 public class Enemy extends NPC {
 
     private boolean defeated;
@@ -63,14 +68,12 @@ public class Enemy extends NPC {
                         step(map, currentCell, new Point(this.position.x, nextPosition.y));
                     }
                 }
-            }
-            else if (this.position.x != this.target.x) {
-                    nextPosition.x = this.position.x + ((this.target.x - this.position.x) / Math.abs(this.target.x - this.position.x));
-                    step(map, currentCell, new Point(nextPosition.x, this.position.y));
-            }
-            else if (this.position.y != this.target.y) {
-                    nextPosition.y = this.position.y + ((this.target.y - this.position.y) / Math.abs(this.target.y - this.position.y));
-                    step(map, currentCell, new Point(this.position.x, nextPosition.y));
+            } else if (this.position.x != this.target.x) {
+                nextPosition.x = this.position.x + ((this.target.x - this.position.x) / Math.abs(this.target.x - this.position.x));
+                step(map, currentCell, new Point(nextPosition.x, this.position.y));
+            } else if (this.position.y != this.target.y) {
+                nextPosition.y = this.position.y + ((this.target.y - this.position.y) / Math.abs(this.target.y - this.position.y));
+                step(map, currentCell, new Point(this.position.x, nextPosition.y));
             } else {
                 attack(hero);
             }

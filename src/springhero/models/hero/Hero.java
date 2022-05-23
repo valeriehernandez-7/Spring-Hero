@@ -15,6 +15,11 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.List;
 
+/**
+ * Hero model class.
+ * @author <a href="https://github.com/valeriehernandez-7">Valerie M. Hernández Fernández</a>
+ * @author <a href="https://github.com/Mariana612">Mariana Navarro Jiménez</a>
+ */
 public class Hero implements Constants, Observable {
 
     private final JLabel sprite = new JLabel();
@@ -43,6 +48,9 @@ public class Hero implements Constants, Observable {
 
     public void updateSprite(view view, Cell cell) {
         ImageIcon icon = new ImageIcon();
+        if (view == null) {
+            view = this.view;
+        }
         switch (view) {
             case UP -> icon = this.upImg;
             case DOWN -> icon = this.downImg;
@@ -55,7 +63,6 @@ public class Hero implements Constants, Observable {
             this.sprite.setBounds(new Rectangle(this.sprite.getIcon().getIconWidth(), this.sprite.getIcon().getIconHeight()));
             this.setPosition(cell);
         }
-
     }
 
     public Point getPosition() {
@@ -90,36 +97,38 @@ public class Hero implements Constants, Observable {
         }
     }
 
-    public boolean attack(Map map, view direction, List<Enemy> enemyList) {
+    public boolean attack(Map map, List<Enemy> enemyList) {
         ImageIcon icon = new ImageIcon();
-        Point detectAttack = new Point(0, 0);
-        switch (direction) {
+        Point enemyPosition = null;
+        switch (this.view) {
             case UP -> {
                 icon = this.upAttackImg;
-                detectAttack = new Point(this.position.x - 1, this.position.y);
+                enemyPosition = new Point(this.position.x - 1, this.position.y);
             }
             case DOWN -> {
                 icon = this.downAttackImg;
-                detectAttack = new Point(this.position.x + 1, this.position.y);
+                enemyPosition = new Point(this.position.x + 1, this.position.y);
             }
             case LEFT -> {
                 icon = this.leftAttackImg;
-                detectAttack = new Point(this.position.x, this.position.y - 1);
+                enemyPosition = new Point(this.position.x, this.position.y - 1);
             }
             case RIGHT -> {
                 icon = this.rightAttackImg;
-                detectAttack = new Point(this.position.x, this.position.y + 1);
+                enemyPosition = new Point(this.position.x, this.position.y + 1);
             }
         }
-        if (icon.getImage() != null) {
-            this.sprite.setIcon(icon);
-            this.sprite.setBounds(new Rectangle(this.sprite.getIcon().getIconWidth(), this.sprite.getIcon().getIconHeight()));
-            setPosition(map.getCell(this.position));
-        }
-        for (Enemy enemy : enemyList) {
-            if (enemy.getPosition().equals(detectAttack)) {
-                enemy.setDefeated(true);
-                return true;
+        if (enemyPosition != null) {
+            if (icon.getImage() != null) {
+                this.sprite.setIcon(icon);
+                this.sprite.setBounds(new Rectangle(this.sprite.getIcon().getIconWidth(), this.sprite.getIcon().getIconHeight()));
+                setPosition(map.getCell(this.position));
+            }
+            for (Enemy enemy : enemyList) {
+                if (enemy.getPosition().equals(enemyPosition)) {
+                    enemy.setDefeated(true);
+                    return true;
+                }
             }
         }
         return false;

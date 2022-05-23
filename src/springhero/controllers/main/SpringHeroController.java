@@ -23,7 +23,6 @@ public class SpringHeroController implements Constants, KeyListener {
 
     private final SpringHero springHero;
     private final SpringHeroView springHeroView;
-    private view oldMovement;
 
     public SpringHeroController() {
         this.springHero = new SpringHero();
@@ -86,25 +85,21 @@ public class SpringHeroController implements Constants, KeyListener {
         if (getSpringHeroScreenview() == screens.GAME) {
             boolean heroStateChanged = false;
             if (key == KeyEvent.VK_W) {
-                oldMovement = view.UP;
                 heroStateChanged = getSpringHeroHero().move(view.UP, getSpringHeroMap());
             }
             if (key == KeyEvent.VK_S) {
-                oldMovement = view.DOWN;
                 heroStateChanged = getSpringHeroHero().move(view.DOWN, getSpringHeroMap());
             }
             if (key == KeyEvent.VK_A) {
-                oldMovement = view.LEFT;
                 heroStateChanged = getSpringHeroHero().move(view.LEFT, getSpringHeroMap());
             }
             if (key == KeyEvent.VK_D) {
-                oldMovement = view.RIGHT;
                 heroStateChanged = getSpringHeroHero().move(view.RIGHT, getSpringHeroMap());
             }
-            if (key == KeyEvent.VK_F && oldMovement != null) {
-                heroStateChanged = getSpringHeroHero().attack(getSpringHeroMap(), oldMovement, getSpringHeroEnemies());
+            if (key == KeyEvent.VK_F) {
+                heroStateChanged = getSpringHeroHero().attack(getSpringHeroMap(), getSpringHeroEnemies());
                 new Timer(200, e -> {
-                    getSpringHeroHero().updateSprite(oldMovement, getSpringHeroMap().getCell(getSpringHeroHero().getPosition()));
+                    getSpringHeroHero().updateSprite(null, getSpringHeroMap().getCell(getSpringHeroHero().getPosition()));
                     ((Timer) e.getSource()).stop();
                 }).start();
             }
@@ -165,6 +160,11 @@ public class SpringHeroController implements Constants, KeyListener {
     }
 
     private void removeRescuedAllies() {
+        for (Ally ally : getSpringHeroAllies()) {
+            if (ally.isRescued()) {
+                getSpringHeroHero().detachObserver(ally);
+            }
+        }
         getSpringHeroAllies().removeIf(Ally::isRescued);
         checkAllies();
         updateSpringHeroView();
@@ -179,6 +179,11 @@ public class SpringHeroController implements Constants, KeyListener {
     }
 
     private void removeDefeatedEnemies() {
+        for (Enemy enemy : getSpringHeroEnemies()) {
+            if (enemy.isDefeated()) {
+                getSpringHeroHero().detachObserver(enemy);
+            }
+        }
         getSpringHeroEnemies().removeIf(Enemy::isDefeated);
         checkLevel();
         updateSpringHeroView();

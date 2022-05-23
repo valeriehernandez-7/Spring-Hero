@@ -3,6 +3,10 @@ package springhero.models.main;
 import java.awt.Color;
 import java.awt.Point;
 
+/**
+ * Constants interface.
+ * @author <a href="https://github.com/valeriehernandez-7">Valerie M. Hernández Fernández</a>
+ */
 public interface Constants {
 
     // game info

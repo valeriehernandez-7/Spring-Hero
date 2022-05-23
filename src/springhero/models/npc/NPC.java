@@ -10,6 +10,10 @@ import java.awt.Rectangle;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+/**
+ * NPC model abstract class.
+ * @author <a href="https://github.com/valeriehernandez-7">Valerie M. Hernández Fernández</a>
+ */
 public abstract class NPC implements Constants, PropertyChangeListener {
 
     protected JLabel sprite = new JLabel();

@@ -4,6 +4,10 @@ import springhero.models.hero.Hero;
 import springhero.models.main.Cell;
 import springhero.models.main.Map;
 
+/**
+ * Ally model class.
+ * @author <a href="https://github.com/valeriehernandez-7">Valerie M. Hernández Fernández</a>
+ */
 import javax.swing.ImageIcon;
 
 public class Ally extends NPC {
